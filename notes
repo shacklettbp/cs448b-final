@@ -1,0 +1,3 @@
+Hierarchical:  flame graph
+Ability to show different instances of time together: cycles 1 - 5 vs 25 - 30 for example, cut out intermediate time
+Comparing 2 different signals: let's say we assume they will both always be on, make adjacency graph showing the product of 2 wires. Time of signal A across top, time for signal B down side

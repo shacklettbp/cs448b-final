@@ -26,11 +26,11 @@ ul[role='tablist'] li {
 }
 
 ul[role='tablist'] li a {
-  font-weight: bold;
   text-decoration: none;
+  color: black;
 
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
   display: block;
   background: #f9f9f9;
   padding: .25rem .5rem;

@@ -32,7 +32,7 @@ function draw_waveform(div_id, waveform_data) {
 
 function ready(data) {
   console.log(Object.keys(data['/']));
-  draw_waveform('visualization-area', data['/']['top']['O']);
+  draw_waveform('visualization-area', data['/']['_top']['outputs']['O']);
 }
 
 d3.selectAll("*[role='tablist']")

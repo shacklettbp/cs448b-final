@@ -14,7 +14,19 @@
 </head>
 
 <body>
-  <div class="scope-area">
+  <ul role="tablist">
+    <li><a role="tab" href="#panel1" aria-selected="true">Panel 1</a></li>
+    <li><a role="tab" href="#panel2">Panel 2</a></li>
+    <li><a role="tab" href="#panel3">Panel 3</a></li>
+  </ul>
+  <section role="tabpanel" id="panel1">
+    <h2>Panel 1</h2>
+  </section>
+  <section role="tabpanel" id="panel3">
+    <h2>Panel 3</h2>
+  </section>
+
+  <section role="tabpanel" id="panel2" class="scope-area">
     <h3>Scope</h3>
     <div class="circuit-area">
       <h3>Circuit</h3>
@@ -33,7 +45,7 @@
         <script src='script.js'></script>
       </div>
     </div>
-  </div>  
+  </section>  
 
   <div class="pure-g comparison-view">
     <div class="sidebar pure-u-1-5 comparison-view-options">

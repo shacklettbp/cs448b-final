@@ -3,16 +3,63 @@
 <html lang='en'>
 <head>
   <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Hierarchical Waveform Viewer</title>
 
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
   <link rel='stylesheet' href='style.css'>
   <script src='https://d3js.org/d3.v5.min.js'></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 
 <body>
-  <div id='visualization-area'></div>
-  <script src='script.js'></script>
+  <div class="scope-area">
+    <h3>Scope</h3>
+    <div class="circuit-area">
+      <h3>Circuit</h3>
+      <div class="pure-g waveform-container">
+        <div class="pure-u-1-5 label">
+          Label
+        </div>
+        <div class="pure-u-4-5" id="visualization-area"></div>
+        <script src='script.js'></script>
+      </div>
+      <div class="pure-g waveform-container">
+        <div class="pure-u-1-5 label">
+          Label
+        </div>
+        <div class="pure-u-4-5" id="visualization-area"></div>
+        <script src='script.js'></script>
+      </div>
+    </div>
+  </div>  
+
+  <div class="pure-g comparison-view">
+    <div class="sidebar pure-u-1-5 comparison-view-options">
+      <h3>Create Comparison View</h3>
+
+      <form class="pure-form">
+          <fieldset>
+            <label for="horizontal-option" class="pure-radio">
+              <input id="horizontal-option" type="radio" name="optionsRadios" value="horizontal" checked>
+                Horizontal
+              </input>
+            </label>
+
+            <label for="vertical-option" class="pure-radio">
+              <input id="vertical-option" type="radio" name="optionsRadios" value="vertical">
+                Vertical
+              </input>
+            </label>
+
+            <button type="submit" class="pure-button pure-button-primary">
+              Create
+            </button>
+          </fieldset>
+      </form>
+    </div>
+    <div class="pure-u-4-5 comparison-view-drop-area">Drag 'n drop</div>
+  </div>
 </body>
 </html>

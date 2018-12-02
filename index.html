@@ -10,11 +10,20 @@
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
   <link rel='stylesheet' href='style.css'>
   <script src='https://d3js.org/d3.v5.min.js'></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="external/handlebars.min-latest.js"></script>
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script src='external/handlebars.min-latest.js'></script>
+  <script src='waveform.js'></script>
+  <script src='ui.js'></script>
+  <script id='panel-template' type='text/x-handlebars-template'>
+    <section role='tabpanel' id='panel{{panel_num}}'>
+      <h2>Panel {{panel_num}}</h2>
+      {{> panelContents}}
+    </section>
+  </script>
 </head>
 
 <body>
+  <p id='loading'>Loading</p>
   <ul role="tablist">
     <li><a role="tab" href="#panel1" aria-selected="true">Panel 1</a></li>
     <li><a role="tab" href="#panel2">Panel 2</a></li>
@@ -50,7 +59,7 @@
     </div>
   </section>  
 
-  <div class="pure-g comparison-view">
+  <div id='comparison-creator' class="pure-g comparison-view" style='display: none'>
     <div class="sidebar pure-u-1-5 comparison-view-options">
       <h3>Create Comparison View</h3>
 

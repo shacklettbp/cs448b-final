@@ -28,7 +28,11 @@ function compute_differences(data) {
 }
 
 function draw_waveform(container, waveform_data) {
-  var width = container.node().clientWidth;
+  var margin_top = 5;
+  var margin_bottom = 5;
+  var margin_left = 10;
+
+  var width = container.node().clientWidth - margin_left;
 
   var stats = get_stats(waveform_data)
   var height = calculate_height(stats.range);
@@ -40,14 +44,13 @@ function draw_waveform(container, waveform_data) {
     total_width = width;
   }
 
-  var margin_top = 5;
-  var margin_bottom = 5;
-
   var svg = container.append('svg')
-                     .attr('width', width)
+                     .attr('width', width + margin_left)
                      .attr('height', height + margin_top + margin_bottom);
 
-  var movegroup = svg.append('g');
+  var movegroup = svg.append('g')
+                     .attr('transform', `translate(${margin_left}, 0)`);
+
   var drawgroup = movegroup.append('g');
   var clockgroup = drawgroup.append('g');
   var waveformgroup = drawgroup.append('g')

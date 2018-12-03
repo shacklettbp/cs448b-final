@@ -58,8 +58,10 @@ class UIContext {
 
     var panel = this.append_template(this.body, this.panel_template);
     tab.datum(panel);
-    panel.select('.panel-num').text(panel_num);
-    panel.style('display', 'none');
+    panel.select('.panel-num')
+         .text(panel_num)
+         .style('display', 'none')
+         .attr('aria-hidden', true);
 
     return panel;
   }

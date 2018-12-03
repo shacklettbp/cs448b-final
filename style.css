@@ -25,6 +25,10 @@ ul[role='tablist'] li {
   margin-right: .25rem;
 }
 
+ul[role='tablist'] li:hover {
+  cursor: pointer;
+}
+
 ul[role='tablist'] li a {
   text-decoration: none;
   color: black;

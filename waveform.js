@@ -30,7 +30,7 @@ function compute_differences(data) {
 function draw_waveform(container, waveform_data) {
   var margin_top = 5;
   var margin_bottom = 5;
-  var margin_left = 45;
+  var margin_left = 47;
 
   var width = container.node().clientWidth - margin_left;
 

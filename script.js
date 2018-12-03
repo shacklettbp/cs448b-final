@@ -6,21 +6,31 @@ function setup_waveform(container, wire_name, isinput, data) {
   draw_waveform(waveform_container.select('.visualization-area'), data);
 }
 
+function render_inputs_outputs(container, data) {
+  var inputs = data['inputs'];
+  var outputs = data['outputs'];
+
+  for (var key in inputs) {
+    if (key === 'CLK') continue;
+    setup_waveform(container, key, true, inputs[key]);
+  }
+  for (var key in outputs) {
+    setup_waveform(container, key, false, outputs[key]);
+  }
+}
+
 function render_scope(panel, scope_name, data) {
   var scope = ui_ctx.make_scope(panel, scope_name);
   var scope_data = data[scope_name];
   var instances = scope_data['_instances'];
 
+  var self_container = ui_ctx.make_circuit(scope, 'self');
+  self_container.select('.circuit-header').text("Inputs & Outputs");
+  render_inputs_outputs(self_container, scope_data['_top']);
+
   instances.forEach(function (inst) {
-    var inputs = scope_data[inst]['inputs'];
-    var outputs = scope_data[inst]['outputs'];
     var circuit_container = ui_ctx.make_circuit(scope, inst);
-    for (var key in inputs) {
-      setup_waveform(circuit_container, key, true, inputs[key]);
-    }
-    for (var key in outputs) {
-      setup_waveform(circuit_container, key, false, outputs[key]);
-    }
+    render_inputs_outputs(circuit_container, scope_data[inst]);
   });
 }
 

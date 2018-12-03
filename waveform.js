@@ -15,7 +15,7 @@ function get_stats(data) {
 }
 
 function calculate_height(range) {
-  return Math.max(50, Math.min(400, range));
+  return Math.max(50, Math.min(200, range));
 }
 
 function draw_waveform(container, waveform_data) {
@@ -23,7 +23,6 @@ function draw_waveform(container, waveform_data) {
                 '#E14759', '#B07AA1', '#76B7B2', '#FF9DA7'];
 
   var width = container.node().clientWidth;
-  console.log(width);
 
   var stats = get_stats(waveform_data)
   var height = calculate_height(stats.range);
@@ -43,7 +42,8 @@ function draw_waveform(container, waveform_data) {
                      .attr('height', height + margin_top + margin_bottom);
 
   var drawgroup = svg.append('g')
-                     .attr('transform', `translate(0, ${margin_top})`);
+                     .attr('transform', `translate(0, ${margin_top})`)
+                     .append('g');
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])

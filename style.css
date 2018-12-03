@@ -147,6 +147,13 @@ section[role='tabpanel'] {
   background-color: #ddd;
 }
 
+.cycles-area line {
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+  stroke: #000000;
+  fill: none;
+}
+
 .comparison-view {
   background-color: rgb(250,250,250);
   border-top: 1px solid #aaa;

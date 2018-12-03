@@ -55,6 +55,11 @@ function ready(data) {
   default_panel.style('display', null)
                .attr('aria-hidden', false);
   d3.select("[role='tab']").attr('aria-selected', true);
+
+  // Hack
+  var top_outs = data['/']['_top']['outputs']
+  var num_cycles = top_outs[Object.keys(top_outs)[0]].length;
+  draw_cycles_counter(d3.select('#cycles-bar .cycles-area'), num_cycles);
   render_scope(default_panel, '/', data);
 }
 

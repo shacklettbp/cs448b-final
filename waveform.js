@@ -1,6 +1,5 @@
-var margin_top = 5;
-var margin_bottom = 5;
 var pixels_per_cycle = 10;
+var margin_left = 4;
 
 function get_stats(data) {
   var min = data[0];
@@ -18,7 +17,7 @@ function get_stats(data) {
   return {max: max, min: min, range: max - min};
 }
 
-function calculate_height(range) {
+function calculate_height(differences, range) {
   return Math.max(50, Math.min(200, range));
 }
 
@@ -32,16 +31,56 @@ function compute_differences(data) {
 }
 
 function draw_cycles_counter(container, num_cycles) {
-  var total_width = num_cycles * cycles_per_pixel;
-  container.append('svg')
-           .attr('width', total_width);
+  var total_width = num_cycles * pixels_per_cycle;
+  var parent_width = container.node().clientWidth - margin_left;
+  console.log(parent_width);
+  if (total_width < parent_width) {
+    total_width = parent_width;
+  }
+  total_width = parent_width;
+  console.log(total_width);
+  var drawgroup = container.append('svg')
+                  .attr('width', total_width + margin_left)
+                  .attr('height', 20)
+                  .append('g')
+                  .attr('transform', `translate(${margin_left}, 0)`);
+
+  var x_scale = d3.scaleLinear()
+                  .domain([0, num_cycles - 1])
+                  .range([0, total_width]);
+
+  //drawgroup.call(d3.axisBottom(x_scale)
+  //                 .ticks(num_cycles / 10)
+  //                 .tickSize(8)
+  //              ).call(function (g) {
+  //                g.select('.domain').remove();
+  //                g.selectAll('line').remove();
+  //              });
+
+  // Draw the grid lines in the same way as the clock grid
+  // Axis lines don't line up perfectly otherwise
+  var ticks = [];
+  var skip = num_cycles / 2 / 10;
+  for (var i = 0; i < num_cycles; i += skip) {
+    ticks.push(x_scale(i));
+  }
+  var points = drawgroup.selectAll('line').data(ticks)
+    .enter()
+    .append('line')
+    .attr('x1', function (d) { return d; })
+    .attr('x2', function (d) { return d; })
+    .attr('y1', 0)
+    .attr('y2', 10);
 }
 
 function draw_waveform(container, axis_container, waveform_data) {
-  var width = container.node().clientWidth;
+  var margin_top = 5;
+  var margin_bottom = 5;
+  var width = container.node().clientWidth - margin_left;
 
   var stats = get_stats(waveform_data)
-  var height = calculate_height(stats.range);
+  var differences = compute_differences(waveform_data);
+  var height = calculate_height(differences, stats.range);
   var cycles = waveform_data.length;
 
   var total_width = cycles * pixels_per_cycle;
@@ -50,10 +89,12 @@ function draw_waveform(container, axis_container, waveform_data) {
   }
 
   var svg = container.append('svg')
-                     .attr('width', width)
+                     .attr('width', width + margin_left)
                      .attr('height', height + margin_top + margin_bottom);
 
-  var drawgroup = svg.append('g');
+  var movegroup = svg.append('g');
+  var drawgroup = movegroup.append('g')
+                           .attr('transform', `translate(${margin_left}, 0)`);
   var clockgroup = drawgroup.append('g');
   var waveformgroup = drawgroup.append('g')
                                .attr('transform', `translate(0, ${margin_top})`);
@@ -71,8 +112,6 @@ function draw_waveform(container, axis_container, waveform_data) {
   var y_scale = d3.scaleLinear()
                   .domain([stats.min, y_max])
                   .range([height, 0]);
-
-  var differences = compute_differences(waveform_data);
 
   // FIXME
   var skip_downclock = [];
@@ -112,7 +151,7 @@ function draw_waveform(container, axis_container, waveform_data) {
                                 .attr('height', height + margin_top + margin_bottom)
                                 .attr('width', axis_width)
                                 .append('g')
-                                .attr('transform', `translate(${axis_width - 4}, ${margin_top})`);
+                                .attr('transform', `translate(${axis_width - 1}, ${margin_top})`);
 
   var marks = [stats.min];
   var middle = Math.floor(stats.range / 2);

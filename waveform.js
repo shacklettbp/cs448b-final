@@ -56,7 +56,7 @@ function draw_waveform(container, waveform_data) {
                                .attr('transform', `translate(0, ${margin_top})`);
 
   var axisgroup = movegroup.append('g')
-                           .attr('transform', `translate(0, ${margin_top})`);
+                           .attr('transform', `translate(${margin_left-2}, ${margin_top})`);
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])
@@ -114,7 +114,7 @@ function draw_waveform(container, waveform_data) {
   marks.push(y_max);
 
   // Draw Axis
-  axisgroup.call(d3.axisRight(y_scale)
+  axisgroup.call(d3.axisLeft(y_scale)
                    .ticks(10, '#06X')
                    .tickValues(marks)
                 );

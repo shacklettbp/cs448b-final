@@ -124,3 +124,7 @@ section[role='tabpanel'] {
     stroke: #ffab00;
     stroke-width: 3;
 }
+
+html {
+  overflow-y: scroll;
+}

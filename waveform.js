@@ -35,11 +35,15 @@ function draw_waveform(container, waveform_data) {
     total_width = width;
   }
 
+  var margin_top = 6;
+  var margin_bottom = 1;
+
   var svg = container.append('svg')
                      .attr('width', width)
-                     .attr('height', height);
+                     .attr('height', height + margin_top + margin_bottom);
 
-  var drawgroup = svg.append('g');
+  var drawgroup = svg.append('g')
+                     .attr('transform', `translate(0, ${margin_top})`);
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])

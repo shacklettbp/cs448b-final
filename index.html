@@ -11,54 +11,37 @@
   <link rel='stylesheet' href='style.css'>
   <script src='https://d3js.org/d3.v5.min.js'></script>
   <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-  <script src='external/handlebars.min-latest.js'></script>
   <script src='waveform.js'></script>
   <script src='ui.js'></script>
-  <script id='panel-template' type='text/x-handlebars-template'>
-    <section role='tabpanel' id='panel{{panel_num}}'>
-      <h2>Panel {{panel_num}}</h2>
-      {{> panelContents}}
+  <template id='tab-template'>
+    <li><a role='tab'>Panel <span class='tab-target'></span></a></li>
+  </template>
+  <template id='panel-template'>
+    <section role='tabpanel'>
+      <h2>Panel <span class='panel-num'></span></h2>
     </section>
-  </script>
+  </template>
+  <template id='scope-template'>
+    <div class='scope-area'>
+      <h3>Scope: <span class='scope-value'></span></h3>
+    </div>
+  </template>
+  <template id='circuit-template'>
+    <div class='circuit-area'>
+      <h3>Circuit: <span class='circuit-name'></span></h3>
+    </div>
+  </template>
+  <template id='waveform-template'>
+    <div class='pure-g waveform-container'>
+      <div class='pure-u-1-5 label'>
+      </div>
+      <div class='pure-u-4-5 visualization-area'></div>
+  </template>
 </head>
 
 <body>
   <p id='loading'>Loading</p>
-  <ul role="tablist">
-    <li><a role="tab" href="#panel1" aria-selected="true">Panel 1</a></li>
-    <li><a role="tab" href="#panel2">Panel 2</a></li>
-    <li><a role="tab" href="#panel3">Panel 3</a></li>
-  </ul>
-  <section role="tabpanel" id="panel1">
-    <h2>Panel 1</h2>
-  </section>
-  <section role="tabpanel" id="panel3">
-    <h2>Panel 3</h2>
-  </section>
-
-  <section role="tabpanel" id="panel2" class="background-area">
-    <div class="scope-area">
-      <h3>Scope</h3>
-      <div class="circuit-area">
-        <h3>Circuit</h3>
-        <div class="pure-g waveform-container">
-          <div class="pure-u-1-5 label">
-            Label
-          </div>
-          <div class="pure-u-4-5" id="visualization-area"></div>
-          <script src='script.js'></script>
-        </div>
-        <div class="pure-g waveform-container">
-          <div class="pure-u-1-5 label">
-            Label
-          </div>
-          <div class="pure-u-4-5" id="visualization-area"></div>
-          <script src='script.js'></script>
-        </div>
-      </div>
-    </div>
-  </section>  
-
+  <ul id='tab-container' role="tablist" style='display: none'></ul>
   <div id='comparison-creator' class="pure-g comparison-view" style='display: none'>
     <div class="sidebar pure-u-1-5 comparison-view-options">
       <h3>Create Comparison View</h3>
@@ -85,5 +68,6 @@
     </div>
     <div class="pure-u-4-5 comparison-view-drop-area">Drag 'n drop</div>
   </div>
+<script src='script.js'></script>
 </body>
 </html>

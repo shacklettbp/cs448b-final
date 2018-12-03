@@ -52,32 +52,46 @@
 
   <ul id='tab-container' role="tablist" style='display: none'></ul>
 
-  <div id='comparison-creator' class="pure-g comparison-view" style='display: none'>
-    <div class="sidebar pure-u-1-5 comparison-view-options">
-      <h3 class='comparison-view-header'>Create Comparison View</h3>
-
-      <form class="pure-form">
-          <fieldset>
-            <label for="horizontal-option" class="pure-radio">
-              <input id="horizontal-option" type="radio" name="optionsRadios" value="horizontal" checked>
-                Horizontal
-              </input>
-            </label>
-
-            <label for="vertical-option" class="pure-radio">
-              <input id="vertical-option" type="radio" name="optionsRadios" value="vertical">
-                Vertical
-              </input>
-            </label>
-
-            <button type="submit" class="pure-button pure-button-primary">
-              Create
-            </button>
-          </fieldset>
-      </form>
+  <div class="bottom-bar">
+    <div id="cycles-bar" class="cycles-margins" style="display:none">
+      <div class="pure-g cycles-bar">
+        <div class="pure-u-1-12 cycles-label">
+          <h3 class="cycles-label-text">Cycles</h3>
+        </div>
+        <div class="pure-u-11-12 cycles-area">
+          <p>SVG here</p>
+        </div>
+      </div>
     </div>
-    <div class="pure-u-4-5 comparison-view-drop-area">Drag 'n drop</div>
+
+    <div id='comparison-creator' class="pure-g comparison-view" style='display: none'>
+      <div class="sidebar pure-u-1-5 comparison-view-options">
+        <h3 class='comparison-view-header'>Create Comparison View</h3>
+
+        <form class="pure-form">
+            <fieldset>
+              <label for="horizontal-option" class="pure-radio">
+                <input id="horizontal-option" type="radio" name="optionsRadios" value="horizontal" checked>
+                  Horizontal
+                </input>
+             </label>
+
+              <label for="vertical-option" class="pure-radio">
+                <input id="vertical-option" type="radio" name="optionsRadios" value="vertical">
+                  Vertical
+                </input>
+              </label>
+
+              <button type="submit" class="pure-button pure-button-primary">
+                Create
+              </button>
+            </fieldset>
+        </form>
+      </div>
+      <div class="pure-u-4-5 comparison-view-drop-area">Drag 'n drop</div>
+    </div>
   </div>
+
 <script src='script.js'></script>
 </body>
 </html>

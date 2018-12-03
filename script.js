@@ -19,6 +19,15 @@ function render_inputs_outputs(container, data) {
   }
 }
 
+function update_colors() {
+  var colors = ['#4E79A7', '#59A14F', '#9C755F', '#F28E2B', '#EDC948',
+              '#E14759', '#B07AA1', '#76B7B2', '#FF9DA7'];
+
+  d3.selectAll('.waveform-line').each(function (d, i) {
+    d3.select(this).style('stroke', colors[i % colors.length]);
+  });
+}
+
 function render_scope(panel, scope_name, data) {
   var scope = ui_ctx.make_scope(panel, scope_name);
   var scope_data = data[scope_name];
@@ -32,6 +41,8 @@ function render_scope(panel, scope_name, data) {
     var circuit_container = ui_ctx.make_circuit(scope, inst);
     render_inputs_outputs(circuit_container, scope_data[inst]);
   });
+
+  update_colors();
 }
 
 function ready(data) {

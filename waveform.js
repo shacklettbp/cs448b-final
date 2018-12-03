@@ -18,10 +18,16 @@ function calculate_height(range) {
   return Math.max(50, Math.min(200, range));
 }
 
-function draw_waveform(container, waveform_data) {
-  var colors = ['#4E79A7', '#59A14F', '#9C755F', '#F28E2B', '#EDC948',
-                '#E14759', '#B07AA1', '#76B7B2', '#FF9DA7'];
+function compute_differences(data) {
+  var diffs = [];
+  for (var i = 0; i < data.length - 1; i++) {
+    diffs.push(data[i + 1] - data[i]);
+  }
 
+  return diffs;
+}
+
+function draw_waveform(container, waveform_data) {
   var width = container.node().clientWidth;
 
   var stats = get_stats(waveform_data)
@@ -34,16 +40,17 @@ function draw_waveform(container, waveform_data) {
     total_width = width;
   }
 
-  var margin_top = 6;
-  var margin_bottom = 1;
+  var margin_top = 5;
+  var margin_bottom = 5;
 
   var svg = container.append('svg')
                      .attr('width', width)
                      .attr('height', height + margin_top + margin_bottom);
 
-  var drawgroup = svg.append('g')
-                     .attr('transform', `translate(0, ${margin_top})`)
-                     .append('g');
+  var movegroup = svg.append('g');
+  var clockgroup = movegroup.append('g')
+  var waveformgroup = movegroup.append('g')
+                               .attr('transform', `translate(0, ${margin_top})`)
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])
@@ -53,20 +60,36 @@ function draw_waveform(container, waveform_data) {
                   .domain([stats.min, stats.max])
                   .range([height, 0]);
 
-  drawgroup.append('path')
+  var differences = compute_differences(waveform_data);
+
+  // FIXME
+  var skip_downclock = [];
+  for (var i = 0; i < differences.length; i += 2) {
+    skip_downclock.push(differences[i]);
+  }
+
+  clockgroup.selectAll('line').data(skip_downclock)
+    .enter()
+    .append('line')
+    .attr('class', function (d) {
+      if (d == 0) {
+        return 'clock-nochange';
+      } else {
+        return 'clock-change';
+      }
+    })
+    .attr('x1', function (d, i) { return x_scale(i*2); })
+    .attr('x2', function (d, i) { return x_scale(i*2); })
+    .attr('y1', 0)
+    .attr('y2', height+margin_top+margin_bottom);
+
+  waveformgroup.append('path')
     .datum(waveform_data)
     .attr('class', 'waveform-line')
     .attr('d', d3.line()
       .x(function(d, i) { return x_scale(i); })
       .y(function (d) { return y_scale(d); })
-      .curve(d3.curveStepAfter)
+      .curve(d3.curveStepBefore)
     );
-  //drawgroup.selectAll('.clock_grid')
-  //  .data(waveform_data)
-  //  .enter()
-  //  .append('rect')
 
-  for (var i = 0; i < waveform_data.length; i++) {
-
-  }
 }

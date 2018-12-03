@@ -129,6 +129,24 @@ section[role='tabpanel'] {
     stroke-width: 3;
 }
 
+.clock-nochange {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.clock-change {
+    fill: none;
+    stroke: red;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+svg {
+  display: block;
+}
+
 html {
   overflow-y: scroll;
 }

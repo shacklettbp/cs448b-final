@@ -59,24 +59,28 @@ section[role='tabpanel'] {
 }
 
 .scope-area {
-  padding: 5pt;
+  padding: 5pt 5pt 0pt 5pt;
   background-color: rgb(180,180,180);
 }
 
 .scope-header {
   margin-top: 0pt;
-  margin-bottom: -5pt;
+  margin-bottom: 0pt;
 }
 
 .circuit-area {
   padding: 5pt 5pt 5pt 5pt;
   background-color: rgb(225,225,225);
-  margin-top: 10pt;
+  margin-top: 5pt;
 }
 
 .circuit-header {
   margin-top: 0pt;
   margin-bottom: 0pt;
+}
+
+.circuit-padding {
+  padding-top: 5pt;
 }
 
 .waveform-container {

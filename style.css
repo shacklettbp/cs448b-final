@@ -154,6 +154,10 @@ section[role='tabpanel'] {
   fill: none;
 }
 
+.cycles-area text {
+  font-size: 0.7em;
+}
+
 .comparison-view {
   background-color: rgb(250,250,250);
   border-top: 1px solid #aaa;

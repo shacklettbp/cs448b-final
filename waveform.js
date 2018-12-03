@@ -33,12 +33,9 @@ function compute_differences(data) {
 function draw_cycles_counter(container, num_cycles) {
   var total_width = num_cycles * pixels_per_cycle;
   var parent_width = container.node().clientWidth - margin_left;
-  console.log(parent_width);
   if (total_width < parent_width) {
     total_width = parent_width;
   }
-  total_width = parent_width;
-  console.log(total_width);
   var drawgroup = container.append('svg')
                   .attr('width', total_width + margin_left)
                   .attr('height', 20)
@@ -49,28 +46,35 @@ function draw_cycles_counter(container, num_cycles) {
                   .domain([0, num_cycles - 1])
                   .range([0, total_width]);
 
-  //drawgroup.call(d3.axisBottom(x_scale)
-  //                 .ticks(num_cycles / 10)
-  //                 .tickSize(8)
-  //              ).call(function (g) {
-  //                g.select('.domain').remove();
-  //                g.selectAll('line').remove();
-  //              });
-
   // Draw the grid lines in the same way as the clock grid
   // Axis lines don't line up perfectly otherwise
   var ticks = [];
   var skip = num_cycles / 2 / 10;
   for (var i = 0; i < num_cycles; i += skip) {
-    ticks.push(x_scale(i));
+    ticks.push(i);
   }
-  var points = drawgroup.selectAll('line').data(ticks)
-    .enter()
+  var points = drawgroup.selectAll('line').data(ticks).enter()
+    .append('g')
+    .attr('transform', function (d) {
+      return `translate(${x_scale(d)}, 0)`;
+    });
+
+  points
     .append('line')
-    .attr('x1', function (d) { return d; })
-    .attr('x2', function (d) { return d; })
     .attr('y1', 0)
-    .attr('y2', 10);
+    .attr('y2', 8);
+
+  points
+    .append('text')
+    .attr('y', 20)
+    .text(function(d) { return d; });
+
+  //drawgroup.call(d3.axisBottom(x_scale)
+  //                 .tickSize(8)
+  //                 .tickValues(ticks)
+  //              ).call(function (g) {
+  //                g.select('.domain').remove();
+  //              });
 }
 
 function draw_waveform(container, axis_container, waveform_data) {

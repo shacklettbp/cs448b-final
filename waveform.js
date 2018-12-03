@@ -48,9 +48,10 @@ function draw_waveform(container, waveform_data) {
                      .attr('height', height + margin_top + margin_bottom);
 
   var movegroup = svg.append('g');
-  var clockgroup = movegroup.append('g')
-  var waveformgroup = movegroup.append('g')
-                               .attr('transform', `translate(0, ${margin_top})`)
+  var drawgroup = movegroup.append('g');
+  var clockgroup = drawgroup.append('g');
+  var waveformgroup = drawgroup.append('g')
+                               .attr('transform', `translate(0, ${margin_top})`);
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])

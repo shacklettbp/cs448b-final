@@ -30,7 +30,7 @@ function compute_differences(data) {
 function draw_waveform(container, waveform_data) {
   var margin_top = 5;
   var margin_bottom = 5;
-  var margin_left = 10;
+  var margin_left = 45;
 
   var width = container.node().clientWidth - margin_left;
 
@@ -48,20 +48,28 @@ function draw_waveform(container, waveform_data) {
                      .attr('width', width + margin_left)
                      .attr('height', height + margin_top + margin_bottom);
 
-  var movegroup = svg.append('g')
-                     .attr('transform', `translate(${margin_left}, 0)`);
-
-  var drawgroup = movegroup.append('g');
+  var movegroup = svg.append('g');
+  var drawgroup = movegroup.append('g')
+                           .attr('transform', `translate(${margin_left}, 0)`);
   var clockgroup = drawgroup.append('g');
   var waveformgroup = drawgroup.append('g')
                                .attr('transform', `translate(0, ${margin_top})`);
+
+  var axisgroup = movegroup.append('g')
+                           .attr('transform', `translate(0, ${margin_top})`);
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])
                   .range([0, total_width]);
 
+  var y_max;
+  if (stats.range == 0) {
+    y_max = stats.min + 1;
+  } else {
+    y_max = stats.max;
+  }
   var y_scale = d3.scaleLinear()
-                  .domain([stats.min, stats.max])
+                  .domain([stats.min, y_max])
                   .range([height, 0]);
 
   var differences = compute_differences(waveform_data);
@@ -72,6 +80,7 @@ function draw_waveform(container, waveform_data) {
     skip_downclock.push(differences[i]);
   }
 
+  // Draw Clock Lines
   clockgroup.selectAll('line').data(skip_downclock)
     .enter()
     .append('line')
@@ -87,6 +96,7 @@ function draw_waveform(container, waveform_data) {
     .attr('y1', 0)
     .attr('y2', height+margin_top+margin_bottom);
 
+  // Draw Waveform
   waveformgroup.append('path')
     .datum(waveform_data)
     .attr('class', 'waveform-line')
@@ -96,4 +106,16 @@ function draw_waveform(container, waveform_data) {
       .curve(d3.curveStepBefore)
     );
 
+  var marks = [stats.min];
+  var middle = Math.floor(stats.range / 2);
+  if (middle != stats.min) {
+    marks.push(middle);
+  }
+  marks.push(y_max);
+
+  // Draw Axis
+  axisgroup.call(d3.axisRight(y_scale)
+                   .ticks(10, '#06X')
+                   .tickValues(marks)
+                );
 }

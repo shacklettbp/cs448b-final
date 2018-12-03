@@ -3,7 +3,9 @@ d3.json("data/trace.json").then(ready);
 
 function setup_waveform(container, wire_name, isinput, data) {
   var waveform_container = ui_ctx.make_waveform(container, wire_name, isinput);
-  draw_waveform(waveform_container.select('.visualization-area'), data);
+  draw_waveform(waveform_container.select('.visualization-area'),
+                waveform_container.select('.axis-container'),
+                data);
 }
 
 function render_inputs_outputs(container, data) {

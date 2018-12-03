@@ -1,3 +1,7 @@
+var margin_top = 5;
+var margin_bottom = 5;
+var pixels_per_cycle = 10;
+
 function get_stats(data) {
   var min = data[0];
   var max = data[0];
@@ -27,36 +31,32 @@ function compute_differences(data) {
   return diffs;
 }
 
-function draw_waveform(container, waveform_data) {
-  var margin_top = 5;
-  var margin_bottom = 5;
-  var margin_left = 47;
+function draw_cycles_counter(container, num_cycles) {
+  var total_width = num_cycles * cycles_per_pixel;
+  container.append('svg')
+           .attr('width', total_width);
+}
 
-  var width = container.node().clientWidth - margin_left;
+function draw_waveform(container, axis_container, waveform_data) {
+  var width = container.node().clientWidth;
 
   var stats = get_stats(waveform_data)
   var height = calculate_height(stats.range);
   var cycles = waveform_data.length;
 
-  var pixels_per_cycle = 10;
   var total_width = cycles * pixels_per_cycle;
   if (total_width < width) {
     total_width = width;
   }
 
   var svg = container.append('svg')
-                     .attr('width', width + margin_left)
+                     .attr('width', width)
                      .attr('height', height + margin_top + margin_bottom);
 
-  var movegroup = svg.append('g');
-  var drawgroup = movegroup.append('g')
-                           .attr('transform', `translate(${margin_left}, 0)`);
+  var drawgroup = svg.append('g');
   var clockgroup = drawgroup.append('g');
   var waveformgroup = drawgroup.append('g')
                                .attr('transform', `translate(0, ${margin_top})`);
-
-  var axisgroup = movegroup.append('g')
-                           .attr('transform', `translate(${margin_left-2}, ${margin_top})`);
 
   var x_scale = d3.scaleLinear()
                   .domain([0, cycles - 1])
@@ -105,6 +105,14 @@ function draw_waveform(container, waveform_data) {
       .y(function (d) { return y_scale(d); })
       .curve(d3.curveStepBefore)
     );
+
+  // Draw axis
+  var axis_width = 48;
+  var axisgroup = axis_container.append('svg')
+                                .attr('height', height + margin_top + margin_bottom)
+                                .attr('width', axis_width)
+                                .append('g')
+                                .attr('transform', `translate(${axis_width - 4}, ${margin_top})`);
 
   var marks = [stats.min];
   var middle = Math.floor(stats.range / 2);

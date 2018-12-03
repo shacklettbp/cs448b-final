@@ -66,6 +66,8 @@ section[role='tabpanel'] {
 .scope-header {
   margin-top: 0pt;
   margin-bottom: 0pt;
+  font-size: 14pt;
+  font-weight: 900;
 }
 
 .circuit-area {
@@ -77,6 +79,8 @@ section[role='tabpanel'] {
 .circuit-header {
   margin-top: 0pt;
   margin-bottom: 0pt;
+  font-size: 14pt;
+  font-weight: 900;
 }
 
 .circuit-padding {
@@ -128,3 +132,50 @@ section[role='tabpanel'] {
 html {
   overflow-y: scroll;
 }
+
+input[type='checkbox'] {
+  display:none;
+}
+
+.lbl-toggle {
+  display: block;
+  cursor: pointer;
+}
+
+.lbl-toggle::before {
+  content: ' ';
+  display: inline-block;
+
+  border-top: 5px solid currentColor;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+
+  vertical-align: middle;
+  margin-right: .2rem;
+  margin-left: .2rem;
+  transform: translateY(-2px);
+
+  transition: transform .2s ease-out;
+}
+
+.collapsible-content {
+  display: block;
+  overflow: visible;
+  max-height: 350px;
+}
+
+.toggle:checked + .lbl-toggle ~ .collapsible-content {
+  max-height: 0px;
+  overflow: hidden;
+}
+
+.toggle:checked + .lbl-toggle::before {
+  transform: rotate(-90deg) translateX(3px);
+}
+
+.toggle:checked + .lbl-toggle {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+

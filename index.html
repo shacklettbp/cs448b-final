@@ -21,12 +21,18 @@
   </template>
   <template id='scope-template'>
     <div class='scope-area'>
-      <h3 class='scope-header'>Scope: <span class='scope-value'></span></h3>
+      <input id="collapsible-scope" class="toggle" type="checkbox">
+      <label for="collapsible-scope" class='lbl-toggle scope-header'>
+        Scope: <span class='scope-value'></span>
+      </label>
     </div>
   </template>
   <template id='circuit-template'>
     <div class='circuit-area'>
-      <h3 class='circuit-header'>Instance: <span class='circuit-name'></span></h3>
+      <input id="collapsible-circuit" class="toggle" type="checkbox">
+      <label for="collapsible-circuit" class='lbl-toggle circuit-header'>
+        Instance: <span class='circuit-name'></span>
+      </label>
     </div>
     <div class='circuit-padding'></div>
   </template>

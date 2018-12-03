@@ -51,7 +51,7 @@ section[role='tabpanel'] {
   border: 1px solid #999;
   background: #f9f9f9;
   padding: 5pt;
-  margin-bottom: 1pt;
+  margin-bottom: 115pt;
 }
 
 .tabs-bar {
@@ -65,13 +65,13 @@ section[role='tabpanel'] {
 
 .scope-header {
   margin-top: 0pt;
-  margin-bottom: 5pt;
+  margin-bottom: -5pt;
 }
 
 .circuit-area {
   padding: 5pt 5pt 5pt 5pt;
   background-color: rgb(225,225,225);
-  margin-bottom: 10pt;
+  margin-top: 10pt;
 }
 
 .circuit-header {
@@ -81,9 +81,6 @@ section[role='tabpanel'] {
 
 .waveform-container {
   display: block;
-  margin-right: 10pt;
-  margin-bottom: 0pt;
-  margin-left: 0pt;
   margin-top: 5pt;
   background-color: rgb(250,250,250);
 }
@@ -102,6 +99,10 @@ section[role='tabpanel'] {
   width: 100%;
   z-index: 1;
   box-shadow: 0px -1px 20px #808080;
+}
+
+.comparison-view-header {
+  margin-bottom: 0pt;
 }
 
 .comparison-view-options {

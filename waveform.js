@@ -1,4 +1,4 @@
-function draw_waveform(div_id, waveform_data) {
+function draw_waveform(container, waveform_data) {
   var plot_layout = {
     showlengend: false,
     hovermode: 'closest'
@@ -25,5 +25,5 @@ function draw_waveform(div_id, waveform_data) {
     mode: 'lines'
   }
 
-  Plotly.newPlot(div_id, [trace], plot_layout, {displaylogo: false, displayModeBar: false});
+  Plotly.newPlot(container, [trace], plot_layout, {displaylogo: false, displayModeBar: false});
 }

@@ -76,9 +76,9 @@ class UIContext {
     return circuit;
   }
 
-  make_waveform(circuit, row_name) {
+  make_waveform(circuit, row_name, isinput) {
     var waveform_container = this.append_template(circuit.node(), this.waveform_template);
-    circuit.select('.label').text(row_name);
+    waveform_container.select('.label').text(row_name);
     return waveform_container;
   }
 }

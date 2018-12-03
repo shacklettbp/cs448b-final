@@ -1,4 +1,6 @@
 function draw_waveform(container, waveform_data) {
+  var colors = ['#4E79A7', '#59A14F', '#9C755F', '#F28E2B', '#EDC948',
+                '#E14759', '#B07AA1', '#76B7B2', '#FF9DA7'];
   var plot_layout = {
     showlengend: false,
     hovermode: 'closest'

@@ -118,3 +118,9 @@ section[role='tabpanel'] {
 .comparison-view-drop-area {
   text-align: center;
 }
+
+.waveform-line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}

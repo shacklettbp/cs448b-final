@@ -13,7 +13,6 @@ function render_scope(panel, scope_name, data) {
 
   instances.forEach(function (inst) {
     var inputs = scope_data[inst]['inputs'];
-    console.log(inputs);
     var outputs = scope_data[inst]['outputs'];
     var circuit_container = ui_ctx.make_circuit(scope, inst);
     for (var key in inputs) {

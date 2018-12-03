@@ -171,6 +171,16 @@ section[role='tabpanel'] {
 
 .comparison-view-drop-area {
   text-align: center;
+  display: flex;
+}
+
+.comparison-object {
+  display: flex;
+  flex-direction: column;
+  margin: 5pt;
+  padding: 5pt;
+  background-color: rgb(225, 225, 225);
+  border: 1px solid #ccc;
 }
 
 .waveform-line {

@@ -29,9 +29,12 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   var names = [];
   ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function (d) {
     var bbox = this.getBoundingClientRect();
-    if ((start_y < bbox.bottom && end_y > bbox.bottom) ||
-        (start_y < bbox.top && end_y > bbox.top) ||
-        (start_y > bbox.top && end_y < bbox.bottom)) {
+    var relative_bbox_bottom = bbox.bottom + window.scrollY;
+    var relative_bbox_top = bbox.top + window.scrollY;
+
+    if ((start_y < relative_bbox_bottom && end_y > relative_bbox_bottom) ||
+        (start_y < relative_bbox_top && end_y > relative_bbox_top) ||
+        (start_y > relative_bbox_top && end_y < relative_bbox_bottom)) {
       var parent_name_container = d3.select(this.parentElement.parentElement).select('.circuit-name');
       var parent_name;
       if (parent_name_container.empty()) {

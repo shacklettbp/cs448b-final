@@ -81,7 +81,7 @@ function update_colors() {
   var colors = ['#4E79A7', '#59A14F', '#9C755F', '#F28E2B', '#EDC948',
               '#E14759', '#B07AA1', '#76B7B2', '#FF9DA7'];
 
-  d3.selectAll('.waveform-line').each(function (d, i) {
+  ui_ctx.get_cur_panel().selectAll('.waveform-line').each(function (d, i) {
     d3.select(this).style('stroke', colors[i % colors.length]);
   });
 }
@@ -110,10 +110,30 @@ function create_cycle_counter(data) {
   draw_cycles_counter(d3.select('#cycles-bar .cycles-area'), num_cycles);
 }
 
+function setup_comparison_creator(data) {
+  d3.select('#comparison-create').on('click', function () {
+    d3.event.preventDefault();
+  
+    var comp_panel = ui_ctx.make_panel();
+    ui_ctx.activate_panel(comp_panel);
+  
+    var comp_objs = d3.selectAll('#comparison-drop-area .comparison-object');
+    //var data = comp_objs.data()
+    //comp_objs.remove();
+    //console.log(data);
+  
+    var comp_container = ui_ctx.make_comparison(comp_panel, '/pico.inst1/DualRAM16x8.inst6.WDATA');
+    setup_waveform(comp_container, 'Cycles 15-60', true, data['/pico.inst1']['DualRAM16x8.inst6']['inputs']['WDATA']);
+    setup_waveform(comp_container, 'Cycles 90-135', true, data['/pico.inst1']['DualRAM16x8.inst6']['outputs']['RDATA0']);
+    update_colors();
+  });
+}
+
 function ready(data) {
   console.log(data);
   ui_ready()
   create_cycle_counter(data);
+  setup_comparison_creator(data);
 
   var default_panel = ui_ctx.make_panel();
   ui_ctx.activate_panel(default_panel);
@@ -121,16 +141,3 @@ function ready(data) {
   render_scope(default_panel, '/', data);
 }
 
-d3.select('#comparison-create').on('click', function () {
-  d3.event.preventDefault();
-
-  var comp_panel = ui_ctx.make_panel();
-  ui_ctx.activate_panel(comp_panel);
-
-  var comp_objs = d3.selectAll('#comparison-drop-area .comparison-object');
-  var data = comp_objs.data()
-  comp_objs.remove();
-  console.log(data);
-
-  ui_ctx.make_comparison(comp_panel, 'Blah vs blah');
-});

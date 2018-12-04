@@ -106,6 +106,10 @@ class UIContext {
         });
       }));
 
+    waveform_container.select('.visualization-area').on('scroll', function () {
+      ui_ctx.scroll_waveforms(this.scrollLeft);
+    });
+
     return waveform_container;
   }
 
@@ -114,6 +118,13 @@ class UIContext {
     var obj = obj.datum(data);
     obj.select('h3').text(name);
     obj.select('p').text(`Cycles ${start}-${end}`);
+  }
+
+  scroll_waveforms(scroll) {
+    d3.select('#cycles-bar .cycles-area').node().scrollLeft = scroll;
+    d3.selectAll('.visualization-area').each(function () {
+      this.scrollLeft = scroll;
+    });
   }
 }
 

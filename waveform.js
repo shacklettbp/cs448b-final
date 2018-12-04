@@ -82,10 +82,7 @@ function draw_cycles_counter(container, num_cycles) {
     .attr('x', function(d) { return -this.clientWidth / 2; });
 
   container.on('scroll', function () {
-    var scrollLeft = this.scrollLeft;
-    d3.selectAll('.visualization-area').each(function () {
-      this.scrollLeft = scrollLeft;
-    });
+    ui_ctx.scroll_waveforms(this.scrollLeft);
   });
 }
 

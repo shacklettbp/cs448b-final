@@ -66,15 +66,9 @@ function draw_cycles_counter(container, num_cycles) {
 
   points
     .append('text')
+    .text(function(d) { return d; })
     .attr('y', 20)
-    .text(function(d) { return d; });
-
-  //drawgroup.call(d3.axisBottom(x_scale)
-  //                 .tickSize(8)
-  //                 .tickValues(ticks)
-  //              ).call(function (g) {
-  //                g.select('.domain').remove();
-  //              });
+    .attr('x', function(d) { return -this.clientWidth / 2; });
 }
 
 function draw_waveform(container, axis_container, waveform_data) {

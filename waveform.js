@@ -49,7 +49,7 @@ function draw_cycles_counter(container, num_cycles) {
 
   var drawgroup = container.append('svg')
                   .attr('width', total_width + margin_left)
-                  .attr('height', 20)
+                  .attr('height', 25)
                   .append('g')
                   .attr('transform', `translate(${margin_left}, 0)`);
 

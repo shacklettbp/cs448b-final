@@ -15,6 +15,7 @@ class UIContext {
     this.circuit_template = d3.select('#circuit-template').node();
     this.waveform_template = d3.select('#waveform-template').node();
     this.comparison_object_template = d3.select('#comparison-object-template').node();
+    this.comparison_template = d3.select('#comparison-template').node()
 
     this.panel_idx = 1;
     this.tab_container = d3.select('#tab-container').node();
@@ -41,6 +42,22 @@ class UIContext {
     return d3.select('section[aria-hidden="false"]');
   }
 
+  activate_panel(panel) {
+    d3.selectAll("*[role='tabpanel']")
+      .style('display', 'none')
+      .attr('aria-hidden', true);
+
+    d3.selectAll("*[role='tab']")
+      .attr('aria-selected', false);
+
+    panel.style('display', null)
+         .attr('aria-hidden', false);
+
+    panel.datum().attr('aria-selected', true);
+    panel.style('display', null)
+         .attr('aria-hidden', false);
+  }
+
   make_panel() {
     var panel_num = this.panel_idx++;
     var tab = this.append_template(this.tab_container, this.tab_template);
@@ -49,21 +66,12 @@ class UIContext {
 
     tab.on('click', function(d) {
       d3.event.preventDefault();
-      d3.selectAll("*[role='tabpanel']")
-        .style('display', 'none')
-        .attr('aria-hidden', true);
-
-      d3.selectAll("*[role='tab']")
-        .attr('aria-selected', false);
-
-      d.style('display', null)
-       .attr('aria-hidden', false);
-
-      d3.select(this).attr('aria-selected', true);
+      ui_ctx.activate_panel(d);
     });
 
     var panel = this.append_template(this.body, this.panel_template);
     tab.datum(panel);
+    panel.datum(tab);
     panel.select('.panel-num')
          .text(panel_num)
          .style('display', 'none')
@@ -167,6 +175,12 @@ class UIContext {
     var obj = obj.datum(data);
     obj.select('h3').text(name);
     obj.select('p').text(`Cycles ${start}-${end}`);
+  }
+
+  make_comparison(container, comparison_name) {
+    var circuit = this.append_template(container.node(), this.comparison_template);
+    circuit.select('.comp-desc').text(comparison_name);
+    return circuit;
   }
 
   scroll_waveforms(scroll) {

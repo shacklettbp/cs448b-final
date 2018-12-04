@@ -116,13 +116,21 @@ function ready(data) {
   create_cycle_counter(data);
 
   var default_panel = ui_ctx.make_panel();
-  default_panel.style('display', null)
-               .attr('aria-hidden', false);
-  d3.select("[role='tab']").attr('aria-selected', true);
+  ui_ctx.activate_panel(default_panel);
 
   render_scope(default_panel, '/', data);
 }
 
 d3.select('#comparison-create').on('click', function () {
   d3.event.preventDefault();
+
+  var comp_panel = ui_ctx.make_panel();
+  ui_ctx.activate_panel(comp_panel);
+
+  var comp_objs = d3.selectAll('#comparison-drop-area .comparison-object');
+  var data = comp_objs.data()
+  comp_objs.remove();
+  console.log(data);
+
+  ui_ctx.make_comparison(comp_panel, 'Blah vs blah');
 });

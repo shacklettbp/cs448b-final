@@ -201,10 +201,19 @@ svg text {
 .comparison-object {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin: 5pt;
-  padding: 5pt;
+  padding: 0pt 5pt 0pt 5pt;
   background-color: rgb(225, 225, 225);
   border: 1px solid #ccc;
+}
+
+.comparison-object-scope {
+  margin-bottom: 3pt;
+}
+
+.comparison-object-cycles {
+  margin-top: 3pt;
 }
 
 .waveform-line {

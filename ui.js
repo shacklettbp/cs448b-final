@@ -111,7 +111,7 @@ class UIContext {
       }).on('start', function () {
         var cur_x = d3.event.x;
         d3.event.on('drag', function () {
-          ui_ctx.scroll_waveforms(this.scrollLeft + d3.event.x - cur_x);
+          ui_ctx.scroll_waveforms(this.scrollLeft + cur_x - d3.event.x);
           cur_x = d3.event.x;
         });
       }));

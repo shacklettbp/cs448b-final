@@ -140,7 +140,7 @@ svg text {
 }
 
 .cycles-margins {
-  border: 1px solid #aaa;
+  border: 1px solid #ccc;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   background-color: white;
@@ -190,7 +190,7 @@ svg text {
 .comparison-view-options {
   text-align: center;
   background-color: rgb(225,225,225);
-  outline: 1px solid #aaa;
+  outline: 1px solid #ccc;
 }
 
 .comparison-view-drop-area {

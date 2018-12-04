@@ -37,6 +37,10 @@ class UIContext {
     return d3.selectAll(children);
   }
 
+  get_cur_panel() {
+    return d3.select('section[aria-hidden="false"]');
+  }
+
   make_panel() {
     var panel_num = this.panel_idx++;
     var tab = this.append_template(this.tab_container, this.tab_template);

@@ -14,6 +14,13 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   var start_cycle = Math.ceil((x_scale.invert(start_x + cur_offset) + 1) / 2);
   var end_cycle = Math.floor((x_scale.invert(end_x + cur_offset) + 1) / 2);
 
+  var selected = [];
+  ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function () {
+    var bbox = this.getBoundingClientRect();
+  });
+
+  console.log(start_y);
+  console.log(end_y);
   console.log(start_cycle);
   console.log(end_cycle);
 

@@ -63,7 +63,7 @@ function draw_cycles_counter(container, num_cycles) {
   // Draw the grid lines in the same way as the clock grid
   // Axis lines don't line up perfectly otherwise
   var ticks = [];
-  var skip = num_cycles / 2 / 10;
+  var skip = 20;
   for (var i = 0; i < num_cycles; i += skip) {
     ticks.push(i);
   }

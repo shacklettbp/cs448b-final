@@ -83,6 +83,13 @@ function draw_cycles_counter(container, num_cycles) {
     .text(function(d) { return d; })
     .attr('y', 20)
     .attr('x', function(d) { return -this.clientWidth / 2; });
+
+  container.on('scroll', function () {
+    var scrollLeft = this.scrollLeft;
+    d3.selectAll('.visualization-area').each(function () {
+      this.scrollLeft = scrollLeft;
+    });
+  });
 }
 
 function draw_waveform(container, axis_container, waveform_data) {
@@ -100,7 +107,7 @@ function draw_waveform(container, axis_container, waveform_data) {
   }
 
   var svg = container.append('svg')
-                     .attr('width', width + margin_left)
+                     .attr('width', total_width + margin_left)
                      .attr('height', height + margin_top + margin_bottom);
 
   var movegroup = svg.append('g');

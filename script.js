@@ -52,14 +52,19 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   ui_ctx.add_comparison_object(name, start_cycle, end_cycle, selected);
 }
 
-function setup_waveform(container, wire_name, isinput, data) {
+function setup_waveform(container, wire_name, isinput, instance_name, scope_name, data) {
   var waveform_container = ui_ctx.make_waveform(container, wire_name, isinput,
     function (sx, sy, ex, ey) {
       make_comparison_object(sx, sy, ex, ey, data);
-    });
+    }
+  );
+
   var visualization_area = waveform_container.select('.visualization-area');
-  visualization_area.datum({values: data,
-                            name: wire_name
+  visualization_area.datum({
+                            name: wire_name,
+                            instance: instance_name,
+                            scope: scope_name,
+                            data: data
                            });
 
   draw_waveform(visualization_area,
@@ -67,16 +72,16 @@ function setup_waveform(container, wire_name, isinput, data) {
                 data);
 }
 
-function render_inputs_outputs(container, data) {
+function render_inputs_outputs(container, instance_name, scope_name, data) {
   var inputs = data['inputs'];
   var outputs = data['outputs'];
 
   for (var key in inputs) {
     if (key === 'CLK') continue;
-    setup_waveform(container, key, true, inputs[key]);
+    setup_waveform(container, key, true, instance_name, scope_name, inputs[key]);
   }
   for (var key in outputs) {
-    setup_waveform(container, key, false, outputs[key]);
+    setup_waveform(container, key, false, instance_name, scope_name, outputs[key]);
   }
 }
 
@@ -96,11 +101,11 @@ function render_scope(panel, scope_name, data) {
 
   var self_container = ui_ctx.make_circuit(scope, 'self');
   self_container.select('.circuit-header').text("Inputs & Outputs");
-  render_inputs_outputs(self_container, scope_data['_top']);
+  render_inputs_outputs(self_container, 'self', scope_name, scope_data['_top']);
 
   instances.forEach(function (inst) {
     var circuit_container = ui_ctx.make_circuit(scope, inst);
-    render_inputs_outputs(circuit_container, scope_data[inst]);
+    render_inputs_outputs(circuit_container, inst, scope_name, scope_data[inst]);
   });
 
   update_colors();
@@ -113,7 +118,7 @@ function create_cycle_counter(data) {
   draw_cycles_counter(d3.select('#cycles-bar .cycles-area'), num_cycles);
 }
 
-function setup_comparison_creator(data) {
+function setup_comparison_creator() {
   d3.select('#comparison-create').on('click', function () {
     d3.event.preventDefault();
   
@@ -121,14 +126,16 @@ function setup_comparison_creator(data) {
     ui_ctx.activate_panel(comp_panel);
   
     var comp_objs = d3.selectAll('#comparison-drop-area .comparison-object');
-    //var data = comp_objs.data()
-    //comp_objs.remove();
-    //console.log(data);
+    var data = comp_objs.data()
+    comp_objs.remove();
+    console.log(data);
+    data.forEach(function (d) {
+    });
   
-    var comp_container = ui_ctx.make_comparison(comp_panel, '/pico.inst1/DualRAM16x8.inst6.WDATA');
-    setup_waveform(comp_container, 'Cycles 15-60', true, data['/pico.inst1']['DualRAM16x8.inst6']['inputs']['WDATA']);
-    setup_waveform(comp_container, 'Cycles 90-135', true, data['/pico.inst1']['DualRAM16x8.inst6']['outputs']['RDATA0']);
-    update_colors();
+    //var comp_container = ui_ctx.make_comparison(comp_panel, '/pico.inst1/DualRAM16x8.inst6.WDATA');
+    //setup_waveform(comp_container, 'Cycles 15-60', true, data['/pico.inst1']['DualRAM16x8.inst6']['inputs']['WDATA']);
+    //setup_waveform(comp_container, 'Cycles 90-135', true, data['/pico.inst1']['DualRAM16x8.inst6']['outputs']['RDATA0']);
+    //update_colors();
   });
 }
 
@@ -136,7 +143,7 @@ function ready(data) {
   console.log(data);
   ui_ready()
   create_cycle_counter(data);
-  setup_comparison_creator(data);
+  setup_comparison_creator();
 
   var default_panel = ui_ctx.make_panel();
   ui_ctx.activate_panel(default_panel);

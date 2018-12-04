@@ -46,10 +46,7 @@ function calculate_height(min_diff, range) {
 
 function draw_cycles_counter(container, num_cycles) {
   var total_width = num_cycles * pixels_per_cycle;
-  var parent_width = container.node().clientWidth - margin_left;
-  if (total_width < parent_width) {
-    total_width = parent_width;
-  }
+
   var drawgroup = container.append('svg')
                   .attr('width', total_width + margin_left)
                   .attr('height', 20)
@@ -95,16 +92,12 @@ function draw_cycles_counter(container, num_cycles) {
 function draw_waveform(container, axis_container, waveform_data) {
   var margin_top = 5;
   var margin_bottom = 5;
-  var width = container.node().clientWidth - margin_left;
 
   var stats = get_stats(waveform_data)
   var height = calculate_height(stats.min_diff, stats.range);
   var cycles = waveform_data.length;
 
   var total_width = cycles * pixels_per_cycle;
-  if (total_width < width) {
-    total_width = width;
-  }
 
   var svg = container.append('svg')
                      .attr('width', total_width + margin_left)

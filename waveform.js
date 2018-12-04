@@ -57,7 +57,7 @@ function draw_cycles_counter(container, num_cycles) {
                   .attr('transform', `translate(${margin_left}, 0)`);
 
   var x_scale = d3.scaleLinear()
-                  .domain([0, num_cycles - 1])
+                  .domain([0, num_cycles])
                   .range([0, total_width]);
 
   // Draw the grid lines in the same way as the clock grid
@@ -111,7 +111,7 @@ function draw_waveform(container, axis_container, waveform_data) {
                                .attr('transform', `translate(0, ${margin_top})`);
 
   var x_scale = d3.scaleLinear()
-                  .domain([0, cycles - 1])
+                  .domain([0, cycles])
                   .range([0, total_width]);
 
   var y_max;

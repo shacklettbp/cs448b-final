@@ -4,30 +4,44 @@ var margin_left = 4;
 function get_stats(data) {
   var min = data[0];
   var max = data[0];
+  var diffs = [];
+  var diffs_lhs = data[0];
+  var min_diff = Number.MAX_SAFE_INTEGER;
 
-  data.forEach(function (elem) {
+  for (var i = 1; i < data.length; i++) {
+    var elem = data[i];
     if (elem < min) {
       min = elem;
-    } 
+    }
     if (elem > max) {
       max = elem;
     }
-  });
 
-  return {max: max, min: min, range: max - min};
+    var diff = elem - diffs_lhs;
+    diffs.push(diff);
+    diffs_lhs = elem;
+    if (Math.abs(diff) < min_diff && Math.abs(diff) > 0) {
+      min_diff = Math.abs(diff);
+    }
+  }
+  
+  min_diff = min_diff == Number.MAX_SAFE_INTEGER ? 0 : min_diff;
+
+  return {max: max, min: min, range: max - min, diffs: diffs, min_diff: min_diff};
 }
 
-function calculate_height(differences, range) {
-  return Math.max(50, Math.min(200, range));
-}
+function calculate_height(min_diff, range) {
+  var scale_factor = 3;
 
-function compute_differences(data) {
-  var diffs = [];
-  for (var i = 0; i < data.length - 1; i++) {
-    diffs.push(data[i + 1] - data[i]);
+  var new_range = range;
+  if (min_diff < scale_factor) {
+    var scaled_range = (range / min_diff) * scale_factor;
+    if (scaled_range > range) {
+      new_range = scaled_range;
+    }
   }
 
-  return diffs;
+  return Math.max(30, Math.min(150, new_range));
 }
 
 function draw_cycles_counter(container, num_cycles) {
@@ -77,8 +91,7 @@ function draw_waveform(container, axis_container, waveform_data) {
   var width = container.node().clientWidth - margin_left;
 
   var stats = get_stats(waveform_data)
-  var differences = compute_differences(waveform_data);
-  var height = calculate_height(differences, stats.range);
+  var height = calculate_height(stats.min_diff, stats.range);
   var cycles = waveform_data.length;
 
   var total_width = cycles * pixels_per_cycle;
@@ -113,8 +126,8 @@ function draw_waveform(container, axis_container, waveform_data) {
 
   // FIXME
   var skip_downclock = [];
-  for (var i = 0; i < differences.length; i += 2) {
-    skip_downclock.push(differences[i]);
+  for (var i = 0; i < stats.diffs.length; i += 2) {
+    skip_downclock.push(stats.diffs[i]);
   }
 
   // Draw Clock Lines

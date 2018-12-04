@@ -2,6 +2,17 @@ var ui_ctx = new UIContext();
 d3.json("data/trace.json").then(ready);
 
 function make_comparison_object(start_x, start_y, end_x, end_y, data) {
+  if (start_y > end_y) {
+    var tmp = start_y;
+    start_y = end_y;
+    end_y = tmp;
+  }
+  if (start_x > end_x) {
+    var tmp = start_x;
+    start_x = end_x;
+    end_x = tmp;
+  }
+
   var cycle_counter = d3.select('#cycles-bar .cycles-area');
   var pos_offset = cycle_counter.node().getBoundingClientRect().left;
   start_x -= pos_offset;
@@ -14,27 +25,28 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   var start_cycle = Math.ceil((x_scale.invert(start_x + cur_offset) + 1) / 2);
   var end_cycle = Math.floor((x_scale.invert(end_x + cur_offset) + 1) / 2);
 
-  if (start_y > end_y) {
-    var tmp = start_y;
-    start_y = end_y;
-    end_y = tmp;
-  }
-
   var selected = [];
-  ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function () {
+  var names = [];
+  ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function (d) {
     var bbox = this.getBoundingClientRect();
     if ((start_y < bbox.bottom && end_y > bbox.bottom) ||
         (start_y < bbox.top && end_y > bbox.top) ||
         (start_y > bbox.top && end_y < bbox.bottom)) {
-      selected.push(this);
+      var parent_name_container = d3.select(this.parentElement.parentElement).select('.circuit-name');
+      var parent_name;
+      if (parent_name_container.empty()) {
+        parent_name = 'self';
+      } else {
+        parent_name = parent_name_container.text();
+      }
+      names.push(parent_name + '.' + d.name);
+      selected.push(d);
     }
   });
-  console.log(selected);
 
-  console.log(start_cycle);
-  console.log(end_cycle);
+  var name = names.join(', ');
 
-  //ui_ctx.add_comparison_object(name, start_cycle, end_cycle, data);
+  ui_ctx.add_comparison_object(name, start_cycle, end_cycle, selected);
 }
 
 function setup_waveform(container, wire_name, isinput, data) {
@@ -42,8 +54,12 @@ function setup_waveform(container, wire_name, isinput, data) {
     function (sx, sy, ex, ey) {
       make_comparison_object(sx, sy, ex, ey, data);
     });
+  var visualization_area = waveform_container.select('.visualization-area');
+  visualization_area.datum({values: data,
+                            name: wire_name
+                           });
 
-  draw_waveform(waveform_container.select('.visualization-area'),
+  draw_waveform(visualization_area,
                 waveform_container.select('.axis-container'),
                 data);
 }

@@ -14,13 +14,23 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   var start_cycle = Math.ceil((x_scale.invert(start_x + cur_offset) + 1) / 2);
   var end_cycle = Math.floor((x_scale.invert(end_x + cur_offset) + 1) / 2);
 
+  if (start_y > end_y) {
+    var tmp = start_y;
+    start_y = end_y;
+    end_y = tmp;
+  }
+
   var selected = [];
   ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function () {
     var bbox = this.getBoundingClientRect();
+    if ((start_y < bbox.bottom && end_y > bbox.bottom) ||
+        (start_y < bbox.top && end_y > bbox.top) ||
+        (start_y > bbox.top && end_y < bbox.bottom)) {
+      selected.push(this);
+    }
   });
+  console.log(selected);
 
-  console.log(start_y);
-  console.log(end_y);
   console.log(start_cycle);
   console.log(end_cycle);
 

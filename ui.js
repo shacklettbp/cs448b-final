@@ -101,11 +101,17 @@ class UIContext {
         d3.dragDisable(window);
 
         var start_x = d3.event.x;
-        var start_y = d3.event.y;;
+        var start_y = d3.event.sourceEvent.pageY;;
+
+        d3.event.on('drag', function () {
+          // Make rectangle here
+        });
 
         d3.event.on('end', function () {
           d3.dragEnable(window);
-          drag_callback(start_x, start_y, d3.event.x, d3.event.y);
+          drag_callback(start_x, start_y, d3.event.x, d3.event.sourceEvent.pageY);
+
+          // Delete here
         });
       }));
 

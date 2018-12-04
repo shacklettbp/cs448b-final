@@ -280,3 +280,10 @@ input[type='checkbox'] {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+
+#selection-area {
+  background-color: rgba(124, 209, 255, 0.3);
+  border: 1px solid rgba(43, 132, 181, 0.5);
+  background-clip: padding-box;
+}

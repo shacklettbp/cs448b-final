@@ -101,17 +101,46 @@ class UIContext {
         d3.dragDisable(window);
 
         var start_x = d3.event.x;
-        var start_y = d3.event.sourceEvent.pageY;;
+        var start_y = d3.event.sourceEvent.pageY;
+
+        var div_top = d3.event.sourceEvent.pageY;
+        var div_left = d3.event.sourceEvent.pageX;
+        d3.select('body').append('div')
+          .attr('id', 'selection-area')
+          .style('position', 'absolute')
+          .style('top', div_top + 'px')
+          .style('left', div_left + 'px');
 
         d3.event.on('drag', function () {
-          // Make rectangle here
+          var y_pos = d3.event.sourceEvent.pageY;
+          var x_pos = d3.event.sourceEvent.pageX;
+
+          if (x_pos <= div_left) {
+            d3.select('#selection-area')
+              .style('left', x_pos+'px')
+              .style('width', div_left - x_pos + 'px');
+          } else {
+            d3.select('#selection-area')
+              .style('left', div_left + 'px')
+              .style('width', x_pos - div_left + 'px');
+          }
+
+          if (y_pos <= div_top) {
+            d3.select('#selection-area')
+              .style('top', y_pos + 'px')
+              .style('height', div_top - y_pos + 'px');
+          } else {
+            d3.select('#selection-area')
+              .style('top', div_top + 'px')
+              .style('height', y_pos - div_top + 'px');
+          }
         });
 
         d3.event.on('end', function () {
           d3.dragEnable(window);
           drag_callback(start_x, start_y, d3.event.x, d3.event.sourceEvent.pageY);
 
-          // Delete here
+          d3.select('#selection-area').remove();
         });
       }));
 

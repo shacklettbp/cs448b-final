@@ -14,12 +14,12 @@ class UIContext {
     this.scope_template = d3.select('#scope-template').node();
     this.circuit_template = d3.select('#circuit-template').node();
     this.waveform_template = d3.select('#waveform-template').node();
-    this.comparison_template = d3.select('#comparison-object-template').node();
+    this.comparison_object_template = d3.select('#comparison-object-template').node();
 
     this.panel_idx = 1;
     this.tab_container = d3.select('#tab-container').node();
     this.body = d3.select('body').node();
-    this.comparison_container = d3.select('#comparison-drop-area').node();
+    this.comparison_drop_area = d3.select('#comparison-drop-area').node();
   }
 
   create_node(template) {
@@ -90,11 +90,27 @@ class UIContext {
       .attr("height", 18);
 
     waveform_container.select('.label').text(row_name);
+
+    waveform_container.call(d3.drag().filter(function () {
+        return d3.event.ctrlKey;
+      }).on('start', function() {
+        d3.dragDisable(window);
+
+        var start_x = d3.event.x;
+        var start_y = d3.event.y;;
+
+        d3.event.on('end', function () {
+          d3.dragEnable(window);
+
+          ui_ctx.add_comparison_object(row_name, start_x, d3.event.x, {});
+        });
+      }));
+
     return waveform_container;
   }
 
   add_comparison_object(name, start, end, data) {
-    var obj = this.append_template(this.comparison_container, this.comparison_template);
+    var obj = this.append_template(this.comparison_drop_area, this.comparison_object_template);
     var obj = obj.datum(data);
     obj.select('h3').text(name);
     obj.select('p').text(`Cycles ${start}-${end}`);

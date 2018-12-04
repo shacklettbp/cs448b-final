@@ -47,19 +47,26 @@ function render_scope(panel, scope_name, data) {
   update_colors();
 }
 
+function create_cycle_counter(data) {
+  // Hack
+  var top_outs = data['/']['_top']['outputs']
+  var num_cycles = top_outs[Object.keys(top_outs)[0]].length;
+  draw_cycles_counter(d3.select('#cycles-bar .cycles-area'), num_cycles);
+}
+
 function ready(data) {
   console.log(data);
   ui_ready()
+  create_cycle_counter(data);
 
   var default_panel = ui_ctx.make_panel();
   default_panel.style('display', null)
                .attr('aria-hidden', false);
   d3.select("[role='tab']").attr('aria-selected', true);
 
-  // Hack
-  var top_outs = data['/']['_top']['outputs']
-  var num_cycles = top_outs[Object.keys(top_outs)[0]].length;
-  draw_cycles_counter(d3.select('#cycles-bar .cycles-area'), num_cycles);
   render_scope(default_panel, '/', data);
 }
 
+d3.select('#comparison-create').on('click', function () {
+  d3.event.preventDefault();
+});

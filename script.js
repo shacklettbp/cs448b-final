@@ -1,8 +1,31 @@
 var ui_ctx = new UIContext();
 d3.json("data/trace.json").then(ready);
 
+function make_comparison_object(start_x, start_y, end_x, end_y, data) {
+  var cycle_counter = d3.select('#cycles-bar .cycles-area');
+  var pos_offset = cycle_counter.node().getBoundingClientRect().left;
+  start_x -= pos_offset;
+  end_x -= pos_offset;
+
+  var x_scale = cycle_counter.datum().scale;
+
+  var cur_offset = cycle_counter.node().scrollLeft;
+
+  var start_cycle = Math.ceil((x_scale.invert(start_x + cur_offset) + 1) / 2);
+  var end_cycle = Math.floor((x_scale.invert(end_x + cur_offset) + 1) / 2);
+
+  console.log(start_cycle);
+  console.log(end_cycle);
+
+  //ui_ctx.add_comparison_object(name, start_cycle, end_cycle, data);
+}
+
 function setup_waveform(container, wire_name, isinput, data) {
-  var waveform_container = ui_ctx.make_waveform(container, wire_name, isinput);
+  var waveform_container = ui_ctx.make_waveform(container, wire_name, isinput,
+    function (sx, sy, ex, ey) {
+      make_comparison_object(sx, sy, ex, ey, data);
+    });
+
   draw_waveform(waveform_container.select('.visualization-area'),
                 waveform_container.select('.axis-container'),
                 data);

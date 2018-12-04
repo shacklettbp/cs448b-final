@@ -57,6 +57,9 @@ function draw_cycles_counter(container, num_cycles) {
                   .domain([0, num_cycles])
                   .range([0, total_width]);
 
+  // Store the x_scale in the bar for reference by others
+  container.datum({scale: x_scale});
+
   // Draw the grid lines in the same way as the clock grid
   // Axis lines don't line up perfectly otherwise
   var ticks = [];

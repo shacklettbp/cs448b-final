@@ -296,3 +296,18 @@ input[type='checkbox'] {
   border: 1px solid rgba(43, 132, 181, 0.5);
   background-clip: padding-box;
 }
+
+.comparison-header {
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  font-size: 14pt;
+  font-weight: 900;
+  user-select: none;
+}
+
+.comparison-area {
+  padding: 5pt 10pt 5pt 10pt;
+  background-color: rgb(225,225,225);
+  margin-top: 5pt;
+  border-radius: 4px;
+}

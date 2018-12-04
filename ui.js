@@ -105,7 +105,18 @@ class UIContext {
         });
       }));
 
-    waveform_container.select('.visualization-area').on('scroll', function () {
+    var visualization_area = waveform_container.select('.visualization-area');
+    visualization_area.call(d3.drag().filter(function () {
+        return d3.event.shiftKey;
+      }).on('start', function () {
+        var cur_x = d3.event.x;
+        d3.event.on('drag', function () {
+          ui_ctx.scroll_waveforms(this.scrollLeft + d3.event.x - cur_x);
+          cur_x = d3.event.x;
+        });
+      }));
+
+    visualization_area.on('scroll', function () {
       ui_ctx.scroll_waveforms(this.scrollLeft);
     });
 

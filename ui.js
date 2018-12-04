@@ -80,7 +80,7 @@ class UIContext {
     return circuit;
   }
 
-  make_waveform(circuit, row_name, isinput) {
+  make_waveform(circuit, row_name, isinput, drag_callback) {
     var waveform_container = this.append_template(circuit.node(), this.waveform_template);
 
     var icon = isinput ? "icons/input.png" : "icons/output.png";
@@ -101,8 +101,7 @@ class UIContext {
 
         d3.event.on('end', function () {
           d3.dragEnable(window);
-
-          ui_ctx.add_comparison_object(row_name, start_x, d3.event.x, {});
+          drag_callback(start_x, start_y, d3.event.x, d3.event.y);
         });
       }));
 

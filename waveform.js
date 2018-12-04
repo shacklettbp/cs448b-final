@@ -80,7 +80,7 @@ function draw_cycles_counter(container, num_cycles) {
 
   points
     .append('text')
-    .text(function(d) { return d; })
+    .text(function(d) { return d/2; })
     .attr('y', 20)
     .attr('x', function(d) { return -this.clientWidth / 2; });
 

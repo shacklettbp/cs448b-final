@@ -94,15 +94,13 @@ section[role='tabpanel'] {
 .waveform-container {
   margin-top: 5pt;
   background-color: rgb(250,250,250);
+  overflow: hidden;
 }
 
 .visualization-area {
   overflow-x: scroll;
-  scrollbar-color: transparent transparent;
-}
-
-.visualization-area::-webkit-scrollbar {
-  display: none;
+  margin-bottom: -17px;
+  height: 100%;
 }
 
 .waveform-label-container {

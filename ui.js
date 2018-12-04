@@ -14,10 +14,12 @@ class UIContext {
     this.scope_template = d3.select('#scope-template').node();
     this.circuit_template = d3.select('#circuit-template').node();
     this.waveform_template = d3.select('#waveform-template').node();
+    this.comparison_template = d3.select('#comparison-object-template').node();
 
     this.panel_idx = 1;
     this.tab_container = d3.select('#tab-container').node();
     this.body = d3.select('body').node();
+    this.comparison_container = d3.select('#comparison-drop-area').node();
   }
 
   create_node(template) {
@@ -89,6 +91,13 @@ class UIContext {
 
     waveform_container.select('.label').text(row_name);
     return waveform_container;
+  }
+
+  add_comparison_object(name, start, end, data) {
+    var obj = this.append_template(this.comparison_container, this.comparison_template);
+    var obj = obj.datum(data);
+    obj.select('h3').text(name);
+    obj.select('p').text(`Cycles ${start}-${end}`);
   }
 }
 

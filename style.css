@@ -58,6 +58,17 @@ section[role='tabpanel'] {
   margin-bottom: 120pt;
 }
 
+.top-bar {
+  display: flex;
+}
+
+.new-panel-button {
+  padding: 3pt;
+  font-size: 9pt;
+  font-weight: 900;
+  margin: 2pt;
+}
+
 .tabs-bar {
   background-color: rgb(175,175,175);
 }

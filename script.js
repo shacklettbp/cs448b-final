@@ -154,11 +154,18 @@ function setup_comparison_creator() {
   });
 }
 
+function setup_new_button(data) {
+  d3.select('#new-panel-button').on('click', function () {
+    console.log('STUPID DUMDUM');
+  });
+}
+  
 function ready(data) {
   console.log(data);
   ui_ready()
   create_cycle_counter(data);
   setup_comparison_creator();
+  setup_new_button(data);
 
   var default_panel = ui_ctx.make_panel();
   ui_ctx.activate_panel(default_panel);

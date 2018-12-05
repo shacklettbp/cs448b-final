@@ -12,13 +12,16 @@
   <script src='external/d3.v5.min.js'></script>
   <script src='waveform.js'></script>
   <script src='ui.js'></script>
+
   <template id='tab-template'>
     <li><a role='tab'>Panel <span class='tab-target'></span><span class='tab-close'></span></a></li>
   </template>
+
   <template id='panel-template'>
     <section role='tabpanel'>
     </section>
   </template>
+
   <template id='scope-template'>
     <div class='scope-area'>
       <label class='lbl-toggle scope-header'>
@@ -27,6 +30,7 @@
       </label>
     </div>
   </template>
+
   <template id='circuit-template'>
     <div class='circuit-area'>
       <div class='circuit-header'>
@@ -40,6 +44,7 @@
       </div>
     </div>
   </template>
+
   <template id='waveform-template'>
     <div class='pure-g waveform-container'>
       <div class="pure-u-1-12 waveform-label-container">
@@ -51,12 +56,14 @@
       </div>
       <div class='pure-u-11-12 visualization-area'></div>
   </template>
+
   <template id='comparison-object-template'>
     <div class="comparison-object">
       <h3 class='comparison-object-scope'>Scope</h3>
       <p class='comparison-object-cycles'>Cycles:</p>
     </div>
   </template>
+
   <template id='comparison-template'>
     <div class='comparison-area'>
       <label class='comparison-header'>
@@ -69,7 +76,10 @@
 <body>
   <p id='loading'>Loading</p>
 
-  <ul id='tab-container' role="tablist" style='display: none'></ul>
+  <div class='top-bar'>
+    <ul id='tab-container' role="tablist" style='display: none'></ul>
+    <button class='new-panel-button pure-button'>+ Panel</button>
+  </div>
 
   <div class="bottom-bar">
     <div id="cycles-bar" class="cycles-margins" style="display:none">

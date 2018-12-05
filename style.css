@@ -291,6 +291,20 @@ input[type='checkbox'] {
   border-bottom-left-radius: 0;
 }
 
+.tab-close {
+  width: 0px;
+  height: 0px;
+}
+
+.tab-close:after {
+  display: inline-block;
+  content: "\00d7";
+  transform: translateX(1.5px) translateY(-7.5px);
+  margin-right: -5px;
+  margin-bottom: -20px;
+  color: gray;
+}
+
 #selection-area {
   background-color: rgba(124, 209, 255, 0.3);
   border: 1px solid rgba(43, 132, 181, 0.5);

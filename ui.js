@@ -7,6 +7,14 @@ function is_ignorable(nod) {
          ( (nod.nodeType == 3) && is_all_ws(nod) ); // a text node, all ws
 }
 
+function node_before( sib )
+{
+  while ((sib = sib.previousSibling)) {
+    if (!is_ignorable(sib)) return sib;
+  }
+  return null;
+}
+
 class UIContext {
   constructor() {
     this.tab_template = d3.select('#tab-template').node();
@@ -77,6 +85,17 @@ class UIContext {
          .style('display', 'none')
          .attr('aria-hidden', true);
 
+    tab.select('.tab-close').on('click', function () {
+      d3.event.preventDefault();
+      d3.event.stopPropagation();
+
+      var prev_panel = d3.select(node_before(panel.node()));
+      panel.remove();
+      tab.remove();
+
+      ui_ctx.activate_panel(prev_panel);
+    });
+
     return panel;
   }
 
@@ -109,12 +128,12 @@ class UIContext {
         circuit.selectAll('.waveform-container')
           .style('display', 'none');
 
-        circuit.select('.lbl-toggle').classed('lbl-toggle-checked', true)
+        circuit.select('.lbl-toggle').classed('lbl-toggle-checked', true);
       } else {
         circuit.selectAll('.waveform-container')
           .style('display', null);
 
-        circuit.select('.lbl-toggle').classed('lbl-toggle-checked', false)
+        circuit.select('.lbl-toggle').classed('lbl-toggle-checked', false);
       }
     });
     return circuit;

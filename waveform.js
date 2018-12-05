@@ -89,7 +89,7 @@ function draw_cycles_counter(container, num_cycles) {
   });
 }
 
-function draw_waveform(container, axis_container, waveform_data) {
+function draw_waveform(container, axis_container, waveform_data, max_range) {
   var margin_top = 5;
   var margin_bottom = 5;
 
@@ -98,6 +98,16 @@ function draw_waveform(container, axis_container, waveform_data) {
   var cycles = waveform_data.length;
 
   var total_width = cycles * pixels_per_cycle;
+  var parent_width = container.node().clientWidth;
+
+  if (max_range && parent_width > total_width) {
+    total_width = Math.floor(parent_width / max_range) * max_range;
+    cycles = max_range;
+  }
+
+  var x_scale = d3.scaleLinear()
+                  .domain([0, cycles])
+                  .range([0, total_width]);
 
   var svg = container.append('svg')
                      .attr('width', total_width + margin_left)
@@ -109,10 +119,6 @@ function draw_waveform(container, axis_container, waveform_data) {
   var clockgroup = drawgroup.append('g');
   var waveformgroup = drawgroup.append('g')
                                .attr('transform', `translate(0, ${margin_top})`);
-
-  var x_scale = d3.scaleLinear()
-                  .domain([0, cycles])
-                  .range([0, total_width]);
 
   var y_max;
   if (stats.range == 0) {

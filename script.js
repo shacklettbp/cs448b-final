@@ -55,7 +55,7 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
 
 }
 
-function setup_waveform(container, wire_name, isinput, instance_name, scope_name, data) {
+function setup_waveform(container, wire_name, isinput, instance_name, scope_name, data, max_range) {
   var waveform_container = ui_ctx.make_waveform(container, wire_name, isinput,
     function (sx, sy, ex, ey) {
       make_comparison_object(sx, sy, ex, ey, data);
@@ -72,7 +72,7 @@ function setup_waveform(container, wire_name, isinput, instance_name, scope_name
 
   draw_waveform(visualization_area,
                 waveform_container.select('.axis-container'),
-                data);
+                data, max_range);
 }
 
 function render_inputs_outputs(container, instance_name, scope_name, data) {
@@ -109,7 +109,7 @@ function render_scope(panel, scope_name, data) {
   render_inputs_outputs(self_container, 'self', scope_name, scope_data['_top']);
 
   instances.forEach(function (inst) {
-    var next_scope = scope_name + (scope_name == '/' ? '' : '/') + inst
+    var next_scope = scope_name + (scope_name == '/' ? '' : '/') + inst;
     var circuit_container = ui_ctx.make_circuit(scope, inst, function () {
       render_scope(panel, next_scope, data);
       window.scrollTo(0, 0);
@@ -144,11 +144,21 @@ function setup_comparison_creator() {
     var data = comp_objs.data()
     comp_objs.remove();
 
+    var max_range = 0;
+    data.forEach(function (d) {
+      d.cycles.forEach(function (cycles) {
+        var range = cycles[1] - cycles[0];
+        if (range > max_range) {
+          max_range = range;
+        }
+      });
+    });
+
     data.forEach(function (d) {
       var full_key = d.info.scope + d.info.scope == '/' ? '' : '/' + d.info.instance + '.' + d.info.name;
       var comp_container = ui_ctx.make_comparison(comp_panel, full_key);
       d.cycles.forEach(function (cycles) {
-        setup_waveform(comp_container, `Cycles ${cycles[0]}-${cycles[1]}`, null, d.info.instance, d.info.scope, d.info.data.slice(cycles[0], cycles[1]));
+        setup_waveform(comp_container, `Cycles ${cycles[0]}-${cycles[1]}`, null, d.info.instance, d.info.scope, d.info.data.slice(cycles[0]*2, cycles[1]*2 + 1), max_range);
       });
     });
 

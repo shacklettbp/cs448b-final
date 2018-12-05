@@ -221,6 +221,12 @@ class UIContext {
               .style('top', div_top + 'px')
               .style('height', y_pos - div_top + 'px');
           }
+
+          var cur_scroll = waveform_container.node().scrollLeft;
+          var cur_rel_x = d3.event.x - cur_scroll;
+          if (cur_rel_x > 0.95*waveform_container.node().clientWidth) {
+            ui_ctx.scroll_waveforms(cur_scroll + 10);
+          }
         });
 
         d3.event.on('end', function () {

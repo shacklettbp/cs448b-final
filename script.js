@@ -83,7 +83,7 @@ function render_inputs_outputs(container, instance_name, scope_name, data) {
   var outputs = data['outputs'];
 
   for (var key in inputs) {
-    if (key === 'CLK') continue;
+    if (key === 'CLK' || key === 'clk') continue;
     setup_waveform(container, key, true, instance_name, scope_name, inputs[key]);
   }
   for (var key in outputs) {
@@ -173,6 +173,11 @@ function setup_new_button(data) {
   d3.select('#new-panel-button').on('click', function () {
     var default_panel = ui_ctx.make_panel();
     ui_ctx.activate_panel(default_panel);
+    ui_ctx.activate_panel(default_panel);
+
+    render_scope(default_panel, '/', data);
+    return;
+
     var canvas = default_panel.append('div');
     
     var hierarchy = data_to_hierarchy(data, '/');

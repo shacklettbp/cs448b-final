@@ -337,3 +337,19 @@ input[type='checkbox'] {
   margin-top: 5pt;
   border-radius: 4px;
 }
+
+g.cur-value rect {
+  fill: gray;
+}
+
+g.cur-value text {
+  font-size: 0.7em;
+  fill: white;
+}
+
+g.cur-value line {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}

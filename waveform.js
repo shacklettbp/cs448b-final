@@ -109,17 +109,6 @@ function draw_waveform(container, axis_container, waveform_data, max_range) {
                   .domain([0, cycles])
                   .range([0, total_width]);
 
-  var svg = container.append('svg')
-                     .attr('width', total_width + margin_left)
-                     .attr('height', height + margin_top + margin_bottom);
-
-  var movegroup = svg.append('g');
-  var drawgroup = movegroup.append('g')
-                           .attr('transform', `translate(${margin_left}, 0)`);
-  var clockgroup = drawgroup.append('g');
-  var waveformgroup = drawgroup.append('g')
-                               .attr('transform', `translate(0, ${margin_top})`);
-
   var y_max;
   if (stats.range == 0) {
     y_max = stats.min + 1;
@@ -129,6 +118,18 @@ function draw_waveform(container, axis_container, waveform_data, max_range) {
   var y_scale = d3.scaleLinear()
                   .domain([stats.min, y_max])
                   .range([height, 0]);
+
+  var svg = container.append('svg')
+                     .attr('width', total_width + margin_left)
+                     .attr('height', height + margin_top + margin_bottom);
+
+  var movegroup = svg.append('g');
+  var drawgroup = movegroup.append('g')
+                           .attr('transform', `translate(${margin_left}, 0)`);
+
+  var clockgroup = drawgroup.append('g');
+  var waveformgroup = drawgroup.append('g')
+                               .attr('transform', `translate(0, ${margin_top})`);
 
   // FIXME
   var skip_downclock = [];
@@ -182,4 +183,44 @@ function draw_waveform(container, axis_container, waveform_data, max_range) {
                    .ticks(10, '#06X')
                    .tickValues(marks)
                 );
+
+  container.on('mousemove', function () {
+    var bounding = drawgroup.node().getBoundingClientRect();
+    var pos = d3.event.x - bounding.left;
+    d3.selectAll('g.cur-value').remove()
+    var cycle = Math.floor(x_scale.invert(pos));
+
+    ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function (d) {
+      var cur = d3.select(this);
+      var cur_height = cur.select('svg').attr('height');
+      var value = d.data[cycle + 1];
+      var y_pos = d.y_scale(value);
+      if (y_pos > cur_height - 12) {
+        y_pos = cur_height - 12;
+      }
+
+      var cur_group = cur.select('svg > g > g');
+      var marker_group = cur_group.append('g')
+                                  .attr('class', 'cur-value')
+
+      var marker_label = marker_group.append('g').attr('transform', `translate(${pos}, ${y_pos})`);
+
+      var formatted = d3.format('#06X')(value);
+
+      var rect = marker_label.append('rect');
+      var text = marker_label.append('text').text(formatted)
+                             .attr('dy', '0.85em')
+                             .attr('dx', '1px');
+
+      rect.attr('width', text.node().clientWidth + 2).attr('height', '0.7em');
+
+      marker_group.append('line')
+      .attr('x1', pos)
+      .attr('x2', pos)
+      .attr('y1', 0)
+      .attr('y2', cur_height)
+    });
+  });
+
+  return {x_scale: x_scale, y_scale: y_scale};
 }

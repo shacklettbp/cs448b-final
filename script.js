@@ -63,16 +63,19 @@ function setup_waveform(container, wire_name, isinput, instance_name, scope_name
   );
 
   var visualization_area = waveform_container.select('.visualization-area');
+
+  var info = draw_waveform(visualization_area,
+                           waveform_container.select('.axis-container'),
+                           data, max_range);
+
   visualization_area.datum({
                             name: wire_name,
                             instance: instance_name,
                             scope: scope_name,
-                            data: data
+                            data: data,
+                            x_scale: info.x_scale,
+                            y_scale: info.y_scale
                            });
-
-  draw_waveform(visualization_area,
-                waveform_container.select('.axis-container'),
-                data, max_range);
 }
 
 function render_inputs_outputs(container, instance_name, scope_name, data) {

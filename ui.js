@@ -164,6 +164,10 @@ class UIContext {
     circuit.select('.descend-icon-button').on('click', function () {
       descend_function()
     });
+
+    //circuit.on('mouseenter', function () {
+    //  d3.selectAll('g.cur-value').remove()
+    //});
     return circuit;
   }
 
@@ -254,6 +258,10 @@ class UIContext {
 
     visualization_area.on('scroll', function () {
       ui_ctx.scroll_waveforms(this.scrollLeft);
+    });
+
+    visualization_area.on('mouseleave', function () {
+      d3.selectAll('g.cur-value').remove();
     });
 
     return waveform_container;

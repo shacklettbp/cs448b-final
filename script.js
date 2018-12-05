@@ -103,7 +103,7 @@ function render_scope(panel, scope_name, data) {
   var instances = scope_data['_instances'];
 
   var self_container = ui_ctx.make_circuit(scope, 'self');
-  self_container.select('.circuit-header').text("Inputs & Outputs");
+  self_container.select('.circuit-name').text("Inputs & Outputs");
   render_inputs_outputs(self_container, 'self', scope_name, scope_data['_top']);
 
   instances.forEach(function (inst) {

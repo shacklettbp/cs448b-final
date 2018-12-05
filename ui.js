@@ -84,8 +84,8 @@ class UIContext {
     var scope = this.append_template(panel.node(), this.scope_template);
     scope.select('.scope-value').text(scope_name);
 
-    scope.select('.scope-toggle').on("click", function () {
-      if (scope.select('.scope-toggle').property('checked')) {
+    scope.select('.toggle').on("click", function () {
+      if (d3.select(this).property('checked')) {
         scope.selectAll('.circuit-area')
           .style('display', 'none');
         scope.selectAll('.circuit-padding')
@@ -101,17 +101,20 @@ class UIContext {
   }
 
   make_circuit(scope, circuit_name) {
-    console.log('making circuit with name: ', circuit_name);
     var circuit = this.append_template(scope.node(), this.circuit_template);
     circuit.select('.circuit-name').text(circuit_name);
 
-    circuit.select('.circuit-toggle').on("click", function () {
-      if (circuit.select('.circuit-toggle').property('checked')) {
+    circuit.select('.toggle').on("click", function () {
+      if (d3.select(this).property('checked')) {
         circuit.selectAll('.waveform-container')
           .style('display', 'none');
+
+        circuit.select('.lbl-toggle').classed('lbl-toggle-checked', true)
       } else {
         circuit.selectAll('.waveform-container')
           .style('display', null);
+
+        circuit.select('.lbl-toggle').classed('lbl-toggle-checked', false)
       }
     });
     return circuit;

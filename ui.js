@@ -120,11 +120,15 @@ class UIContext {
   make_waveform(circuit, row_name, isinput, drag_callback) {
     var waveform_container = this.append_template(circuit.node(), this.waveform_template);
 
-    var icon = isinput ? "icons/input.png" : "icons/output.png";
-    waveform_container.select('.icon').append("svg:image")
-      .attr("hlink:href", icon)
-      .attr("width", 18)
-      .attr("height", 18);
+    if (isinput === null) {
+      waveform_container.select('.icon').remove();
+    } else {
+      var icon = isinput ? "icons/input.png" : "icons/output.png";
+      waveform_container.select('.icon').append("svg:image")
+        .attr("hlink:href", icon)
+        .attr("width", 18)
+        .attr("height", 18);
+    }
 
     waveform_container.select('.label').text(row_name);
 

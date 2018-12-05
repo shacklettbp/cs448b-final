@@ -131,14 +131,16 @@ function setup_comparison_creator() {
     var comp_objs = d3.selectAll('#comparison-drop-area .comparison-object');
     var data = comp_objs.data()
     comp_objs.remove();
-    console.log(data);
+
     data.forEach(function (d) {
+      var full_key = d.info.scope + d.info.scope == '/' ? '' : '/' + d.info.instance + '.' + d.info.name;
+      var comp_container = ui_ctx.make_comparison(comp_panel, full_key);
+      d.cycles.forEach(function (cycles) {
+        setup_waveform(comp_container, `Cycles ${cycles[0]}-${cycles[1]}`, null, d.info.instance, d.info.scope, d.info.data.slice(cycles[0], cycles[1]));
+      });
     });
-  
-    //var comp_container = ui_ctx.make_comparison(comp_panel, '/pico.inst1/DualRAM16x8.inst6.WDATA');
-    //setup_waveform(comp_container, 'Cycles 15-60', true, data['/pico.inst1']['DualRAM16x8.inst6']['inputs']['WDATA']);
-    //setup_waveform(comp_container, 'Cycles 90-135', true, data['/pico.inst1']['DualRAM16x8.inst6']['outputs']['RDATA0']);
-    //update_colors();
+
+    update_colors();
   });
 }
 

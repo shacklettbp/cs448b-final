@@ -83,12 +83,37 @@ class UIContext {
   make_scope(panel, scope_name) {
     var scope = this.append_template(panel.node(), this.scope_template);
     scope.select('.scope-value').text(scope_name);
+
+    scope.select('.scope-toggle').on("click", function () {
+      if (scope.select('.scope-toggle').property('checked')) {
+        scope.selectAll('.circuit-area')
+          .style('display', 'none');
+        scope.selectAll('.circuit-padding')
+          .style('display', 'none');
+      } else {
+        scope.selectAll('.circuit-area')
+          .style('display', null);
+        scope.selectAll('.circuit-padding')
+          .style('display', null);
+      }
+    });
     return scope;
   }
 
   make_circuit(scope, circuit_name) {
+    console.log('making circuit with name: ', circuit_name);
     var circuit = this.append_template(scope.node(), this.circuit_template);
     circuit.select('.circuit-name').text(circuit_name);
+
+    circuit.select('.circuit-toggle').on("click", function () {
+      if (circuit.select('.circuit-toggle').property('checked')) {
+        circuit.selectAll('.waveform-container')
+          .style('display', 'none');
+      } else {
+        circuit.selectAll('.waveform-container')
+          .style('display', null);
+      }
+    });
     return circuit;
   }
 

@@ -84,11 +84,32 @@ section[role='tabpanel'] {
 }
 
 .circuit-header {
+  display: flex;
+}
+
+.circuit-header-label {
   margin-top: 0pt;
   margin-bottom: 0pt;
+  margin-right: 5pt; 
   font-size: 14pt;
   font-weight: 900;
   user-select: none;
+}
+
+.descend-icon-button {
+  background-color: rgb(200,200,200);
+  border-radius: 5px;
+  border: 1px solid rgb(180,180,180);
+  box-shadow: none;
+}
+
+.descend-icon-button:hover {
+  background-color: rgb(190,190,190);
+}
+
+.descend-icon-button:active {
+  background-color: rgb(170,170,170);
+  border: 1px solid rgb(150,150,150);
 }
 
 .waveform-container {

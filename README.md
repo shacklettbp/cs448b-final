@@ -8,3 +8,5 @@
 ### Icons
 - [logout](https://thenounproject.com/term/logout/1820774/) by Chinnaking from the Noun Project
 - [login](https://thenounproject.com/term/login/1820755/) by Chinnaking from the Noun Project
+- [descend](https://thenounproject.com/search/?q=descend&i=31551) by Garrett
+  Knoll from the Noun Project

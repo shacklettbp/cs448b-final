@@ -55,6 +55,13 @@ class UIContext {
   }
 
   activate_panel(panel) {
+    var old_tab = d3.select("[role='tab'][aria-selected='true']");
+    if (!old_tab.empty()) {
+      var old_panel = old_tab.datum();
+      var cur_cycle = this.get_cur_bottom().select('.cycles-area').node().scrollLeft;
+      old_panel.datum().cur_cycle = cur_cycle;
+    }
+
     d3.selectAll("*[role='tabpanel']")
       .style('display', 'none')
       .attr('aria-hidden', true);
@@ -65,15 +72,18 @@ class UIContext {
     panel.style('display', null)
          .attr('aria-hidden', false);
 
-    panel.datum().attr('aria-selected', true);
+    panel.datum().tab.attr('aria-selected', true);
     panel.style('display', null)
          .attr('aria-hidden', false);
+
+    panel.datum().activate_cb();
+    this.scroll_waveforms(panel.datum().cur_cycle);
   }
 
-  make_panel() {
+  make_panel(activate_cb) {
     var panel_num = this.panel_idx++;
-    var tab = this.insert_template(this.tab_container, this.tab_template);
-    tab = tab.select('a');
+    var tab_container = this.insert_template(this.tab_container, this.tab_template);
+    var tab = tab_container.select('a');
     tab.select('.tab-target').text(panel_num);
 
     tab.on('click', function(d) {
@@ -81,9 +91,15 @@ class UIContext {
       ui_ctx.activate_panel(d);
     });
 
+    if (activate_cb === undefined) {
+      activate_cb = function () {
+        d3.select('.bottom-bar').style('display', null);
+      }
+    }
+
     var panel = this.insert_template(this.body, this.panel_template);
     tab.datum(panel);
-    panel.datum(tab);
+    panel.datum({tab: tab, cur_cycle: 0, activate_cb: activate_cb});
     panel.select('.panel-num')
          .text(panel_num)
          .style('display', 'none')
@@ -95,7 +111,7 @@ class UIContext {
 
       var prev_panel = d3.select(node_before(panel.node()));
       panel.remove();
-      tab.remove();
+      tab_container.remove();
 
       ui_ctx.activate_panel(prev_panel);
     });
@@ -253,7 +269,7 @@ class UIContext {
 
   scroll_waveforms(scroll) {
     this.get_cur_bottom().select('.cycles-area').node().scrollLeft = scroll;
-    d3.selectAll('.visualization-area').each(function () {
+    this.get_cur_panel().selectAll('.visualization-area').each(function () {
       this.scrollLeft = scroll;
     });
   }

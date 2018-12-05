@@ -135,7 +135,9 @@ function setup_comparison_creator() {
   d3.select('#comparison-create').on('click', function () {
     d3.event.preventDefault();
   
-    var comp_panel = ui_ctx.make_panel();
+    var comp_panel = ui_ctx.make_panel(function () {
+      d3.select('.bottom-bar').style('display', 'none');
+    });
     ui_ctx.activate_panel(comp_panel);
   
     var comp_objs = d3.selectAll('#comparison-drop-area .comparison-object');

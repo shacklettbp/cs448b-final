@@ -113,11 +113,15 @@ class UIContext {
           .style('display', 'none');
         scope.selectAll('.circuit-padding')
           .style('display', 'none');
+
+        scope.select('.lbl-toggle').classed('lbl-toggle-checked', true);
       } else {
         scope.selectAll('.circuit-area')
           .style('display', null);
         scope.selectAll('.circuit-padding')
           .style('display', null);
+        
+        scope.select('.lbl-toggle').classed('lbl-toggle-checked', false);
       }
     });
     return scope;

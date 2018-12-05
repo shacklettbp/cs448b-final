@@ -171,7 +171,7 @@ function draw_waveform(container, axis_container, waveform_data, max_range) {
                                 .attr('transform', `translate(${axis_width - 1}, ${margin_top})`);
 
   var marks = [stats.min];
-  var middle = Math.floor(stats.range / 2);
+  var middle = Math.floor((stats.max + stats.min)/ 2);
   if (middle != stats.min) {
     marks.push(middle);
   }

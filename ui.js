@@ -286,4 +286,5 @@ function ui_ready() {
   d3.select('#comparison-creator').style('display', null);
   d3.select('#cycles-bar').style('display', null);
   d3.select('#tab-container').style('display', null);
+  d3.select('#new-panel-button').style('display', null);
 }

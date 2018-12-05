@@ -62,7 +62,7 @@ section[role='tabpanel'] {
   display: flex;
 }
 
-.new-panel-button {
+#new-panel-button {
   padding: 3pt;
   font-size: 9pt;
   font-weight: 900;

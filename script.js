@@ -158,8 +158,81 @@ function setup_comparison_creator() {
 
 function setup_new_button(data) {
   d3.select('#new-panel-button').on('click', function () {
-    console.log('STUPID DUMDUM');
+    var default_panel = ui_ctx.make_panel();
+    ui_ctx.activate_panel(default_panel);
+    var canvas = default_panel.append('div');
+    
+    var hierarchy = data_to_hierarchy(data, '/');
+
+    var root = d3.hierarchy(hierarchy);
+
+    var treemapLayout = d3.treemap();
+    treemapLayout
+      .tile(d3.treemapBinary)
+      .size([.95 * default_panel.node().clientWidth, 700])
+      .paddingTop(20)
+      .paddingBottom(5)
+      .paddingLeft(5)
+      .paddingRight(5)
+      .paddingInner(5);
+    
+    root.sum(function(d) {
+      return d.value;
+    });
+
+    treemapLayout(root);
+
+    canvas.append('svg')
+      .attr('width', '100%')
+      .attr('height', 700)
+      .append('g')
+      .selectAll('rect')
+      .data(root.descendants())
+      .enter()
+      .append('rect')
+      .attr('x', function(d) { return d.x0; })
+      .attr('y', function(d) { return d.y0; })
+      .attr('width', function(d) { return d.x1 - d.x0; })
+      .attr('height', function(d) { return d.y1 - d.y0; })
+      .style('fill', 'rgb(100, 100, 100)')
+      .style('opacity', 0.2)
+      .style('stroke', '#000000');
+
+    console.log(d3.select('svg g').selectAll('g'));
+    var nodes = d3.select('svg g')
+      .selectAll('g')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+      .attr('transform', function(d) { return 'translate(' + [d.x0, d.y0] + ')'});
+    
+    nodes
+      .append('text')
+      .attr('dx', 4)
+      .attr('dy', 14)
+      .text(function(d) { return d.data.name; } );
   });
+}
+
+function data_to_hierarchy(data, cur_scope) {
+  var hierarchy = {
+    'name': cur_scope,
+  };
+
+  if (!(cur_scope in data)) {
+    hierarchy['value'] = 1;
+    return hierarchy;
+  }
+
+  var instances = data[cur_scope]._instances;
+
+  var children = instances.map(function (inst) {
+    var new_scope = cur_scope + (cur_scope == '/' ? '' : '/') + inst;
+    return data_to_hierarchy(data, new_scope);
+  });
+
+  hierarchy['children'] = children;
+  return hierarchy;
 }
   
 function ready(data) {

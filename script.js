@@ -168,7 +168,7 @@ function setup_comparison_creator() {
     });
 
     data.forEach(function (d) {
-      var full_key = d.info.scope + d.info.scope == '/' ? '' : '/' + d.info.instance + '.' + d.info.name;
+      var full_key = d.info.scope + (d.info.scope == '/' ? '' : '/') + d.info.instance + '.' + d.info.name;
       var comp_container = ui_ctx.make_comparison(comp_panel, full_key);
       d.cycles.forEach(function (cycles) {
         setup_waveform(comp_container, `Cycles ${cycles[0]}-${cycles[1]}`, null, d.info.instance, d.info.scope, d.info.data.slice(cycles[0]*2, cycles[1]*2 + 1), max_range);

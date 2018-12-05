@@ -299,7 +299,8 @@ class UIContext {
 }
 
 function ui_ready() {
-  d3.select('#loading').remove()
+  d3.select('#file-load').remove();
+  d3.select('#loading').remove();
   d3.select('#comparison-creator').style('display', null);
   d3.select('#cycles-bar').style('display', null);
   d3.select('#tab-container').style('display', null);

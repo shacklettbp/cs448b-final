@@ -1,5 +1,15 @@
 var ui_ctx = new UIContext();
-d3.json("data/trace.json").then(ready);
+
+d3.select('#file-load').on('change', function () {
+  var reader = new FileReader();
+  reader.onload = function () {
+    var content = reader.result;
+    ready(JSON.parse(content));
+  };
+
+  reader.readAsText(this.files[0]);
+  d3.select('#loading').style('display', null);
+});
 
 function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   if (start_y > end_y) {

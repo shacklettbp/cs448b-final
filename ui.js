@@ -203,17 +203,20 @@ class UIContext {
           .style('left', div_left + 'px');
 
         d3.event.on('drag', function () {
+          // TODO extending the rectangle on scrolling is jank
+          var scroll_offset = d3.select('.cycles-area').node().scrollLeft;
+          start_x = div_left - scroll_offset;
           var y_pos = d3.event.sourceEvent.pageY;
           var x_pos = d3.event.sourceEvent.pageX;
 
-          if (x_pos <= div_left) {
+          if (x_pos <= start_x) {
             d3.select('#selection-area')
               .style('left', x_pos+'px')
-              .style('width', div_left - x_pos + 'px');
+              .style('width', start_x - x_pos + 'px');
           } else {
             d3.select('#selection-area')
-              .style('left', div_left + 'px')
-              .style('width', x_pos - div_left + 'px');
+              .style('left', start_x + 'px')
+              .style('width', x_pos - start_x + 'px');
           }
 
           if (y_pos <= div_top) {

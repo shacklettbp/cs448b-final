@@ -339,7 +339,8 @@ input[type='checkbox'] {
 }
 
 g.cur-value rect {
-  fill: gray;
+  fill: rgba(10, 10, 10, 0.5);
+
 }
 
 g.cur-value text {
@@ -349,7 +350,7 @@ g.cur-value text {
 
 g.cur-value line {
     fill: none;
-    stroke: #000000;
+    stroke: rgb(95, 125, 125);
     stroke-width: 1;
     shape-rendering: crispEdges;
 }

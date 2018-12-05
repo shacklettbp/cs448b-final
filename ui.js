@@ -222,15 +222,14 @@ class UIContext {
               .style('height', y_pos - div_top + 'px');
           }
 
-          // TODO scrolling still broken
-          console.log('cur_scroll', d3.select('.cycles-area').node().scrollLeft);
+          // TODO scrolling still kinda jank but it essentially works
           var cur_scroll = d3.select('.cycles-area').node().scrollLeft;
-          // decrementing relative x seems to be the wrong thing to do
-          var cur_rel_x = d3.event.x - cur_scroll;
-          console.log('cur_rel_x', cur_rel_x);
-          console.log('threshold', 0.95 * waveform_container.node().clientWidth)
+          var cur_rel_x = d3.event.x;
           if (cur_rel_x > 0.95*waveform_container.node().clientWidth) {
             ui_ctx.scroll_waveforms(cur_scroll + 10);
+          }
+          if (cur_rel_x < 0.15*waveform_container.node().clientWidth) {
+            ui_ctx.scroll_waveforms(cur_scroll - 10);
           }
         });
 

@@ -112,6 +112,7 @@ function render_scope(panel, scope_name, data) {
     var next_scope = scope_name + scope_name == '/' ? '' : '/' + inst
     var circuit_container = ui_ctx.make_circuit(scope, inst, function () {
       render_scope(panel, next_scope, data);
+      window.scrollTo(0, 0);
     });
     if (!(next_scope in data)) {
       circuit_container.select('.descend-icon-button').remove();

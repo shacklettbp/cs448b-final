@@ -210,9 +210,9 @@ function draw_waveform(container, axis_container, waveform_data, max_range) {
       var rect = marker_label.append('rect');
       var text = marker_label.append('text').text(formatted)
                              .attr('dy', '0.85em')
-                             .attr('dx', '1px');
+                             .attr('x', '4px');
 
-      rect.attr('width', text.node().clientWidth + 2).attr('height', '0.7em');
+      rect.attr('width', text.node().clientWidth).attr('height', '0.7em');
 
       marker_group.append('line')
       .attr('x1', pos)

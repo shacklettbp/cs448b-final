@@ -174,7 +174,7 @@ class UIContext {
     var obj = this.append_template(this.comparison_drop_area, this.comparison_object_template);
     var obj = obj.datum(data);
     obj.select('h3').text(name);
-    obj.select('p').text(`Cycles ${start}-${end}`);
+    obj.select('p').append('span').text(` ${start}-${end}`);
   }
 
   make_comparison(container, comparison_name) {
@@ -183,8 +183,13 @@ class UIContext {
     return circuit;
   }
 
+  get_cur_bottom() {
+    // FIXME
+    return d3.select('.bottom-bar');
+  }
+
   scroll_waveforms(scroll) {
-    d3.select('#cycles-bar .cycles-area').node().scrollLeft = scroll;
+    this.get_cur_bottom().select('.cycles-area').node().scrollLeft = scroll;
     d3.selectAll('.visualization-area').each(function () {
       this.scrollLeft = scroll;
     });

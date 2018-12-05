@@ -13,7 +13,7 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
     end_x = tmp;
   }
 
-  var cycle_counter = d3.select('#cycles-bar .cycles-area');
+  var cycle_counter = ui_ctx.get_cur_bottom().select('.cycles-area');
   var pos_offset = cycle_counter.node().getBoundingClientRect().left;
   start_x -= pos_offset;
   end_x -= pos_offset;
@@ -25,8 +25,11 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
   var start_cycle = Math.ceil((x_scale.invert(start_x + cur_offset) + 1) / 2);
   var end_cycle = Math.floor((x_scale.invert(end_x + cur_offset) + 1) / 2);
 
-  var selected = [];
-  var names = [];
+  var existing_lookup = {};
+  ui_ctx.get_cur_bottom().selectAll('.comparison-object').each(function (d) {
+    existing_lookup[d.info.scope + '/' + d.info.instance + '.' + d.info.name] = d3.select(this);
+  });
+
   ui_ctx.get_cur_panel().selectAll('.visualization-area').each(function (d) {
     var bbox = this.getBoundingClientRect();
     var relative_bbox_bottom = bbox.bottom + window.scrollY;
@@ -35,21 +38,21 @@ function make_comparison_object(start_x, start_y, end_x, end_y, data) {
     if ((start_y < relative_bbox_bottom && end_y > relative_bbox_bottom) ||
         (start_y < relative_bbox_top && end_y > relative_bbox_top) ||
         (start_y > relative_bbox_top && end_y < relative_bbox_bottom)) {
-      var parent_name_container = d3.select(this.parentElement.parentElement).select('.circuit-name');
-      var parent_name;
-      if (parent_name_container.empty()) {
-        parent_name = 'self';
-      } else {
-        parent_name = parent_name_container.text();
+
+      var full_name = d.instance + '.' + d.name;
+      var key = d.scope + '/' + full_name;
+      if (key in existing_lookup) {
+        var existing_element = existing_lookup[key];
+        var existing_data = existing_element.datum();
+        existing_data['cycles'].push([start_cycle, end_cycle]);
+
+        existing_element.select('p').append('span').text(`, ${start_cycle}-${end_cycle}`);
+      } else { 
+        ui_ctx.add_comparison_object(full_name, start_cycle, end_cycle, {info: d, cycles: [[start_cycle, end_cycle]]});
       }
-      names.push(parent_name + '.' + d.name);
-      selected.push(d);
     }
   });
 
-  var name = names.join(', ');
-
-  ui_ctx.add_comparison_object(name, start_cycle, end_cycle, selected);
 }
 
 function setup_waveform(container, wire_name, isinput, instance_name, scope_name, data) {
@@ -115,7 +118,7 @@ function create_cycle_counter(data) {
   // Hack
   var top_outs = data['/']['_top']['outputs']
   var num_cycles = top_outs[Object.keys(top_outs)[0]].length;
-  draw_cycles_counter(d3.select('#cycles-bar .cycles-area'), num_cycles);
+  draw_cycles_counter(ui_ctx.get_cur_bottom().select('.cycles-area'), num_cycles);
 }
 
 function setup_comparison_creator() {

@@ -114,7 +114,9 @@ function render_scope(panel, scope_name, data) {
   instances.forEach(function (inst) {
     var next_scope = scope_name + (scope_name == '/' ? '' : '/') + inst;
     var circuit_container = ui_ctx.make_circuit(scope, inst, function () {
-      render_scope(panel, next_scope, data);
+      var new_panel = ui_ctx.make_panel();
+      ui_ctx.activate_panel(new_panel);
+      render_scope(new_panel, next_scope, data);
       window.scrollTo(0, 0);
     });
     if (!(next_scope in data)) {

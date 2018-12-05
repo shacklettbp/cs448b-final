@@ -193,6 +193,7 @@ class UIContext {
 
         var start_x = d3.event.x;
         var start_y = d3.event.sourceEvent.pageY;
+        var start_scroll_offset = d3.select('.cycles-area').node().scrollLeft;
 
         var div_top = d3.event.sourceEvent.pageY;
         var div_left = d3.event.sourceEvent.pageX;
@@ -205,18 +206,19 @@ class UIContext {
         d3.event.on('drag', function () {
           // TODO extending the rectangle on scrolling is jank
           var scroll_offset = d3.select('.cycles-area').node().scrollLeft;
-          start_x = div_left - scroll_offset;
+          var new_div_left = div_left - (scroll_offset - start_scroll_offset);
+          start_x = new_div_left;
           var y_pos = d3.event.sourceEvent.pageY;
           var x_pos = d3.event.sourceEvent.pageX;
 
-          if (x_pos <= start_x) {
+          if (x_pos <= new_div_left) {
             d3.select('#selection-area')
               .style('left', x_pos+'px')
-              .style('width', start_x - x_pos + 'px');
+              .style('width', new_div_left - x_pos + 'px');
           } else {
             d3.select('#selection-area')
-              .style('left', start_x + 'px')
-              .style('width', x_pos - start_x + 'px');
+              .style('left', new_div_left + 'px')
+              .style('width', x_pos - new_div_left + 'px');
           }
 
           if (y_pos <= div_top) {

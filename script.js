@@ -109,7 +109,7 @@ function render_scope(panel, scope_name, data) {
   render_inputs_outputs(self_container, 'self', scope_name, scope_data['_top']);
 
   instances.forEach(function (inst) {
-    var next_scope = scope_name + scope_name == '/' ? '' : '/' + inst
+    var next_scope = scope_name + (scope_name == '/' ? '' : '/') + inst
     var circuit_container = ui_ctx.make_circuit(scope, inst, function () {
       render_scope(panel, next_scope, data);
       window.scrollTo(0, 0);

@@ -104,10 +104,13 @@ function render_scope(panel, scope_name, data) {
 
   var self_container = ui_ctx.make_circuit(scope, 'self');
   self_container.select('.circuit-name').text("Inputs & Outputs");
+  self_container.select('.descend-icon-button').remove();
   render_inputs_outputs(self_container, 'self', scope_name, scope_data['_top']);
 
   instances.forEach(function (inst) {
-    var circuit_container = ui_ctx.make_circuit(scope, inst);
+    var circuit_container = ui_ctx.make_circuit(scope, inst, function () {
+      render_scope(panel, scope_name + scope_name == '/' ? '' : '/' + inst, data);
+    });
     render_inputs_outputs(circuit_container, inst, scope_name, scope_data[inst]);
   });
 

@@ -35,14 +35,18 @@ class UIContext {
     return document.importNode(template.content, true);
   }
 
-  append_template(parent_node, template) {
+  insert_template(parent_node, template, append=true) {
     var new_node = this.create_node(template);
     var children = [].slice.call(new_node.childNodes, 0);
     children = children.filter(function(val) {
       return !is_ignorable(val);
     });
   
-    parent_node.appendChild(new_node);
+    if (append) {
+      parent_node.appendChild(new_node);
+    } else {
+      parent_node.prepend(new_node);
+    }
     return d3.selectAll(children);
   }
 
@@ -68,7 +72,7 @@ class UIContext {
 
   make_panel() {
     var panel_num = this.panel_idx++;
-    var tab = this.append_template(this.tab_container, this.tab_template);
+    var tab = this.insert_template(this.tab_container, this.tab_template);
     tab = tab.select('a');
     tab.select('.tab-target').text(panel_num);
 
@@ -77,7 +81,7 @@ class UIContext {
       ui_ctx.activate_panel(d);
     });
 
-    var panel = this.append_template(this.body, this.panel_template);
+    var panel = this.insert_template(this.body, this.panel_template);
     tab.datum(panel);
     panel.datum(tab);
     panel.select('.panel-num')
@@ -100,7 +104,7 @@ class UIContext {
   }
 
   make_scope(panel, scope_name) {
-    var scope = this.append_template(panel.node(), this.scope_template);
+    var scope = this.insert_template(panel.node(), this.scope_template, false);
     scope.select('.scope-value').text(scope_name);
 
     scope.select('.toggle').on("click", function () {
@@ -119,8 +123,8 @@ class UIContext {
     return scope;
   }
 
-  make_circuit(scope, circuit_name) {
-    var circuit = this.append_template(scope.node(), this.circuit_template);
+  make_circuit(scope, circuit_name, descend_function) {
+    var circuit = this.insert_template(scope.node(), this.circuit_template);
     circuit.select('.circuit-name').text(circuit_name);
 
     circuit.select('.toggle').on("click", function () {
@@ -136,11 +140,15 @@ class UIContext {
         circuit.select('.lbl-toggle').classed('lbl-toggle-checked', false);
       }
     });
+
+    circuit.select('.descend-icon-button').on('click', function () {
+      descend_function()
+    });
     return circuit;
   }
 
   make_waveform(circuit, row_name, isinput, drag_callback) {
-    var waveform_container = this.append_template(circuit.node(), this.waveform_template);
+    var waveform_container = this.insert_template(circuit.node(), this.waveform_template);
 
     if (isinput === null) {
       waveform_container.select('.icon').remove();
@@ -222,14 +230,14 @@ class UIContext {
   }
 
   add_comparison_object(name, start, end, data) {
-    var obj = this.append_template(this.comparison_drop_area, this.comparison_object_template);
+    var obj = this.insert_template(this.comparison_drop_area, this.comparison_object_template);
     var obj = obj.datum(data);
     obj.select('h3').text(name);
     obj.select('p').append('span').text(` ${start}-${end}`);
   }
 
   make_comparison(container, comparison_name) {
-    var circuit = this.append_template(container.node(), this.comparison_template);
+    var circuit = this.insert_template(container.node(), this.comparison_template);
     circuit.select('.comp-desc').text(comparison_name);
     return circuit;
   }

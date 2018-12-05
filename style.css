@@ -63,14 +63,14 @@ section[role='tabpanel'] {
 }
 
 .scope-area {
-  padding: 5pt 5pt 0pt 5pt;
+  padding: 5pt 5pt 5pt 5pt;
   background-color: rgb(180,180,180);
   border-radius: 4px;
 }
 
 .scope-header {
   margin-top: 0pt;
-  margin-bottom: 0pt;
+  margin-bottom: 5pt;
   font-size: 14pt;
   font-weight: 900;
   user-select: none;
@@ -79,7 +79,7 @@ section[role='tabpanel'] {
 .circuit-area {
   padding: 5pt 5pt 5pt 5pt;
   background-color: rgb(225,225,225);
-  margin-top: 5pt;
+  margin-top: 1pt;
   border-radius: 4px;
 }
 
@@ -89,10 +89,6 @@ section[role='tabpanel'] {
   font-size: 14pt;
   font-weight: 900;
   user-select: none;
-}
-
-.circuit-padding {
-  padding-top: 5pt;
 }
 
 .waveform-container {

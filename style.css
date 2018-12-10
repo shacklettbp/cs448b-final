@@ -354,3 +354,22 @@ g.cur-value line {
     stroke-width: 1;
     shape-rendering: crispEdges;
 }
+
+.select-input-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20pt;
+}
+
+#file-load {
+  display: none;
+}
+
+.select-trace-button {
+}
+
+.default-trace-button {
+  margin-top: 15pt;
+}

@@ -74,8 +74,14 @@
 </head>
 
 <body>
-  <input id='file-load' type='file' />
-  <p id='loading' style='display: none;'>Loading</p>
+  <div class="select-input-data">
+    <h1>Hierarchical Waveform Viewer</h1>
+    <h3>Select a circuit to view:</h3>
+    <input id='file-load' type='file' />
+    <button class='pure-button select-trace-button'>Upload a circuit trace</button>
+    <button class='pure-button default-trace-button'>Use default trace</button>
+    <p id='loading' style='display: none;'>Loading</p>
+  </div>
 
   <div class='top-bar'>
     <ul id='tab-container' role="tablist" style='display: none'></ul>

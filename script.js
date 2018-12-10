@@ -1,5 +1,9 @@
 var ui_ctx = new UIContext();
 
+d3.select('.select-trace-button').on('click', function () {
+  d3.select('#file-load').node().dispatchEvent(new MouseEvent('click'));
+});
+
 d3.select('#file-load').on('change', function () {
   var reader = new FileReader();
   reader.onload = function () {
@@ -8,6 +12,13 @@ d3.select('#file-load').on('change', function () {
   };
 
   reader.readAsText(this.files[0]);
+  d3.select('.select-input-data').style('display', 'none');
+  d3.select('#loading').style('display', null);
+});
+
+d3.select('.default-trace-button').on('click', function () {
+  d3.json("data/trace.json").then(ready);
+  d3.select('.select-input-data').style('display', 'none');
   d3.select('#loading').style('display', null);
 });
 

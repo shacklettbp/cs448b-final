@@ -4,7 +4,6 @@
 
 ### Code
 - Code for tabs based on [Progressive ARIA Tabs in D3](https://bl.ocks.org/shawnbot/eb40c7801a527e1949e6)
-- Code for tree-map based on [D3 in Depth: Layouts](https://d3indepth.com/layouts/)
 - CSS built on top of [Pure CSS](https://purecss.io/)
 
 ### Icons

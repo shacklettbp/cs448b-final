@@ -1,3 +1,3 @@
-# Interactive Waveform Viewer for Magma Debugger
+# Interactive Waveform Viewer for Magma
 
-Provides a browser based interface to debug circuits created in the [Magma hardware description language](https://github.com/phanrahan/magma)
+Provides a browser based interface to debug circuits created in the [Magma hardware description language](https://github.com/phanrahan/magma).
